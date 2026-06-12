@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitais Próximos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00FF00, #00FF00);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .hospital-card {
+            transition: 0.3s;
+        }
+
+        .hospital-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .hospital-icon {
+            font-size: 40px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-4">
+
+    <div class="header shadow">
+        <h1>🏥 Rede Credenciada</h1>
+        <p class="mb-0">
+            Hospitais encontrados próximos à sua localização
+        </p>
+    </div>
+
+    <div class="row">
+
+        {% if hospitais %}
+
+            {% for hospital in hospitais %}
+
+            <div class="col-md-6 col-lg-4 mb-4">
+
+                <div class="card hospital-card shadow-sm h-100">
+
+                    <div class="card-body">
+
+                        <div class="text-center mb-3">
+                            <div class="hospital-icon">
+                                🏥
+                            </div>
+                        </div>
+
+                        <h5 class="card-title">
+                            {{ hospital.display_name.split(',')[0] }}
+                        </h5>
+
+                        <hr>
+
+                        <p class="card-text">
+                            {{ hospital.display_name }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="alert alert-warning">
+                Nenhum hospital encontrado.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <div class="footer">
+        Sistema de Convênio Médico © 2026
+    </div>
+
+</div>
+
+</body>
+</html>
