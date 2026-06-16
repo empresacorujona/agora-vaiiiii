@@ -1,0 +1,323 @@
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+/* VARIÁVEIS */
+
+:root{
+
+    --bg:#F0F6FA;
+    --white:#FFFFFF;
+
+    --blue:#2A7BB5;
+    --green:#4BAE8A;
+
+    --text:#1C2B3A;
+    --text-secondary:#5A5A72;
+
+    --radius:20px;
+}
+
+
+body{
+
+    background:var(--bg);
+
+    font-family:'Inter',sans-serif;
+
+    min-height:100vh;
+
+    color:var(--text);
+
+}
+
+
+/* HEADER */
+
+.header{
+
+    position:fixed;
+
+    width:100%;
+
+    background:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:20px 10%;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.05);
+
+}
+
+
+.logo img{
+
+    width:180px;
+
+}
+
+
+.area-paciente{
+
+    text-decoration:none;
+
+    color:var(--text);
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.area-paciente:hover{
+
+    color:var(--blue);
+
+}
+
+
+/* BARRA DE PROGRESSO */
+
+.progress-bar{
+
+    margin-top:90px;
+
+    height:6px;
+
+    background:#dbe7ef;
+
+}
+
+.progress{
+
+    width:20%;
+
+    height:100%;
+
+    background:var(--blue);
+
+    border-radius:10px;
+
+}
+
+
+/* HERO */
+
+.hero{
+
+    max-width:720px;
+
+    margin:auto;
+
+    padding:80px 20px;
+
+    text-align:center;
+
+}
+
+
+/* ILUSTRAÇÃO */
+
+.hero-image{
+
+    width:220px;
+    height:220px;
+
+    background:white;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:auto;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+
+.medical-icon{
+
+    font-size:80px;
+
+}
+
+
+/* TÍTULO */
+
+.hero h1{
+
+    font-size:32px;
+
+    margin-top:40px;
+
+    font-weight:700;
+
+}
+
+
+/* TEXTO */
+
+.hero p{
+
+    margin-top:20px;
+
+    font-size:18px;
+
+    line-height:1.7;
+
+    color:var(--text-secondary);
+
+}
+
+
+/* BOTÕES */
+
+.buttons{
+
+    margin-top:40px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+.btn-primary{
+
+    height:56px;
+
+    border:none;
+
+    background:var(--blue);
+
+    color:white;
+
+    border-radius:16px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+
+.btn-primary:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+.btn-secondary{
+
+    height:56px;
+
+    background:white;
+
+    border:2px solid var(--blue);
+
+    color:var(--blue);
+
+    border-radius:16px;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+
+.btn-secondary:hover{
+
+    background:var(--blue);
+
+    color:white;
+
+}
+
+
+/* BARRA DE CONFIANÇA */
+
+.trust-bar{
+
+    background:white;
+
+    margin:50px auto;
+
+    max-width:1000px;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    gap:20px;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.05);
+
+}
+
+
+.trust-item{
+
+    font-size:18px;
+
+    color:var(--text-secondary);
+
+}
+
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+
+    .hero h1{
+
+        font-size:26px;
+
+    }
+
+    .trust-bar{
+
+        flex-direction:column;
+
+        text-align:center;
+    }
+
+    .header{
+
+        padding:20px;
+    }
+
+    .logo img{
+
+        width:130px;
+    }
+
+}
