@@ -1,5 +1,5 @@
 # config.py
-
+## banco de dados 
 class Config:
     SECRET_KEY = "senha_super_secreta"
 

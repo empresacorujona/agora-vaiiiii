@@ -1,5 +1,5 @@
 # routes/auth.py
-
+### o fazedor de rotas
 from flask import (
     Blueprint,
     render_template,
@@ -21,7 +21,7 @@ auth_bp = Blueprint(
     __name__
 )
 
-
+##comunicação de abas por back e bd
 @auth_bp.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
 
@@ -44,8 +44,8 @@ def cadastro():
 
         db.session.add(usuario)
         db.session.commit()
-
-        return redirect("/login")
+## atualização retirando de cadastro pra loguin
+        return redirect("/hospitais")
 
     return render_template(
         "cadastro.html"
@@ -73,6 +73,4 @@ def login():
 
                 return redirect("/hospitais")
 
-    return render_template(
-        "login.html"
-    )
+    return render_template("login.html")
