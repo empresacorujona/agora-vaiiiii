@@ -1,11 +1,12 @@
 # routes/auth.py
-### o fazedor de rotas
+
 from flask import (
     Blueprint,
     render_template,
     request,
     redirect,
-    url_for
+    url_for,
+    session
 )
 
 from models import db, Usuario
@@ -21,7 +22,7 @@ auth_bp = Blueprint(
     __name__
 )
 
-##comunicação de abas por back e bd
+
 @auth_bp.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
 
@@ -30,6 +31,13 @@ def cadastro():
         nome = request.form["nome"]
         email = request.form["email"]
         senha = request.form["senha"]
+
+        usuario_existente = Usuario.query.filter_by(
+            email=email
+        ).first()
+
+        if usuario_existente:
+            return "Este e-mail já está cadastrado."
 
         senha_hash = hashpw(
             senha.encode(),
@@ -44,8 +52,8 @@ def cadastro():
 
         db.session.add(usuario)
         db.session.commit()
-## atualização retirando de cadastro pra loguin
-        return redirect("/hospitais")
+
+        return redirect("/login")
 
     return render_template(
         "cadastro.html"
@@ -71,6 +79,20 @@ def login():
                 usuario.senha.encode()
             ):
 
+                session["usuario_id"] = usuario.id
+                session["usuario_nome"] = usuario.nome
+                session["usuario_email"] = usuario.email
+
                 return redirect("/hospitais")
 
+        return "E-mail ou senha inválidos."
+
     return render_template("login.html")
+
+
+@auth_bp.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect("/login")

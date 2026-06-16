@@ -34,3 +34,36 @@ class Usuario(db.Model):
         db.Boolean,
         default=False
     )
+
+    # Relacionamento com agendamentos
+    agendamentos = db.relationship(
+        "Agendamento",
+        backref="usuario",
+        lazy=True
+    )
+
+
+class Agendamento(db.Model):
+
+    __tablename__ = "agendamentos"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    usuario_id = db.Column(
+        db.Integer,
+        db.ForeignKey("usuarios.id"),
+        nullable=False
+    )
+
+    data_consulta = db.Column(
+        db.Date,
+        nullable=False
+    )
+
+    horario = db.Column(
+        db.String(10),
+        nullable=False
+    )

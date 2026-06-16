@@ -36,3 +36,41 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
+
+from flask import session, redirect, request, render_template
+from datetime import datetime
+from models import Agendamento
+from config import db
+
+@app.route("/agendar", methods=["POST"])
+def agendar():
+
+    usuario_id = session.get("usuario_id")
+
+    if not usuario_id:
+        return redirect("/login")
+
+    data = request.form["data"]
+    hora = request.form["hora"]
+
+    novo_agendamento = Agendamento(
+        usuario_id=usuario_id,
+        data_consulta=datetime.strptime(
+            data,
+            "%Y-%m-%d"
+        ).date(),
+        horario=hora
+    )
+
+    db.session.add(novo_agendamento)
+    db.session.commit()
+
+    return render_template(
+        "agendado.html",
+        nome=session["usuario_nome"],
+        data=data,
+        hora=hora
+    )
+
+with app.app_context():
+    db.create_all()

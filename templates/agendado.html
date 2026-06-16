@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Consulta Agendada</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    text-align:center;
+    padding:40px;
+}
+
+.card{
+    max-width:500px;
+    margin:auto;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px #ccc;
+}
+
+.sucesso{
+    color:green;
+    font-size:30px;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="sucesso">
+        ✅ Agendado!
+    </div>
+
+    <h2>{{ nome }}</h2>
+
+    <p>
+        Sua consulta foi registrada para:
+    </p>
+
+    <h3>{{ data }}</h3>
+    <h3>{{ hora }}</h3>
+
+    <input
+        type="date"
+        value="{{ data }}"
+        readonly
+    >
+
+</div>
+
+</body>
+</html>
