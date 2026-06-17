@@ -1,15 +1,21 @@
-# services/geolocalizacao.py
-
 import requests
 
 def obter_localizacao(ip):
 
-    url = f"https://ipapi.co/{ip}/json"
+    try:
 
-    dados = requests.get(url).json()
+        resposta = requests.get(
+            f"http://ip-api.com/json/{ip}",
+            timeout=5
+        )
 
-    return {
-        "cidade": dados.get("city"),
-        "latitude": dados.get("latitude"),
-        "longitude": dados.get("longitude")
-    }
+        dados = resposta.json()
+
+        return {
+            "latitude": dados["lat"],
+            "longitude": dados["lon"],
+            "cidade": dados["city"]
+        }
+
+    except Exception:
+        return None
