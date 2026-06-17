@@ -64,7 +64,7 @@ def hospitais():
     hospitais = resposta.json()
 
     return render_template(
-        "dashboard.html",
+        "hospitais.html",
         hospitais=hospitais,
         cidade=localizacao["cidade"] if localizacao else "São Paulo"
     )
