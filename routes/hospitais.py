@@ -27,17 +27,17 @@ hospital_bp = Blueprint(
 @hospital_bp.route("/hospitais")
 def hospitais():
 
+    if "usuario_id" not in session:
+        return redirect("/login")
+
     ip = request.remote_addr
 
     localizacao = obter_localizacao(ip)
 
     if localizacao:
-
         latitude = localizacao["latitude"]
         longitude = localizacao["longitude"]
-
     else:
-
         latitude = -23.55052
         longitude = -46.633308
 
@@ -63,10 +63,18 @@ def hospitais():
 
     hospitais = resposta.json()
 
+    consultas = Agendamento.query.filter_by(
+        usuario_id=session["usuario_id"]
+    ).order_by(
+        Agendamento.data_consulta.asc()
+    ).all()
+
     return render_template(
         "hospitais.html",
         hospitais=hospitais,
-        cidade=localizacao["cidade"] if localizacao else "São Paulo"
+        cidade=localizacao["cidade"] if localizacao else "São Paulo",
+        consultas=consultas,
+        nome=session["usuario_nome"]
     )
 
 

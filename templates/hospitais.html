@@ -55,7 +55,63 @@
         <h1>🏥 Rede Credenciada</h1>
         <p class="mb-0">Hospitais encontrados próximos à sua localização</p>
       </div>
+      <hr class="mt-5">
 
+      <h2 class="mb-4">
+          📅 Consultas de {{ nome }}
+      </h2>
+      
+      {% if consultas %}
+      
+      <div class="row">
+      
+          {% for consulta in consultas %}
+      
+          <div class="col-md-4 mb-3">
+      
+              <div class="card shadow-sm border-success">
+      
+                  <div class="card-body">
+      
+                      <h5 class="card-title">
+                          Consulta Agendada
+                      </h5>
+      
+                      <p>
+      
+                          <strong>Data:</strong><br>
+      
+                          {{ consulta.data_consulta.strftime("%d/%m/%Y") }}
+      
+                      </p>
+      
+                      <p>
+      
+                          <strong>Horário:</strong><br>
+      
+                          {{ consulta.horario }}
+      
+                      </p>
+      
+                  </div>
+      
+              </div>
+      
+          </div>
+      
+          {% endfor %}
+      
+      </div>
+      
+      {% else %}
+      
+      <div class="alert alert-info">
+      
+          Você ainda não possui consultas agendadas.
+      
+      </div>
+      
+      {% endif %}
       <div class="row">
         {% if hospitais %} {% for hospital in hospitais %}
 
