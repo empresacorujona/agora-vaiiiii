@@ -1,14 +1,45 @@
-##api de hospitais
-from flask import Blueprint, render_template
-import requests
+# api de hospitais
 
-hospital_bp = Blueprint("hospital", __name__)
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    session,
+    redirect
+)
+
+import requests
+from datetime import datetime
+
+from services.geolocalizacao import obter_localizacao
+
+from models import (
+    db,
+    Agendamento
+)
+
+hospital_bp = Blueprint(
+    "hospital",
+    __name__
+)
+
 
 @hospital_bp.route("/hospitais")
 def hospitais():
 
-    latitude = -23.55052
-    longitude = -46.633308
+    ip = request.remote_addr
+
+    localizacao = obter_localizacao(ip)
+
+    if localizacao:
+
+        latitude = localizacao["latitude"]
+        longitude = localizacao["longitude"]
+
+    else:
+
+        latitude = -23.55052
+        longitude = -46.633308
 
     url = (
         f"https://nominatim.openstreetmap.org/search?"
@@ -33,37 +64,31 @@ def hospitais():
     hospitais = resposta.json()
 
     return render_template(
-        "dashboard.html",
-        hospitais=hospitais
+        "hospitais.html",
+        hospitais=hospitais,
+        cidade=localizacao["cidade"] if localizacao else "São Paulo"
     )
 
-from flask import render_template
 
 @hospital_bp.route("/agendamento")
 def tela_agendamento():
+
+    if "usuario_id" not in session:
+        return redirect("/login")
 
     return render_template(
         "agendamento.html"
     )
 
-from flask import (
-    request,
-    session,
-    render_template
-)
-
-from models import (
-    db,
-    Agendamento
-)
-
-from datetime import datetime
 
 @hospital_bp.route(
     "/agendar",
     methods=["POST"]
 )
 def agendar():
+
+    if "usuario_id" not in session:
+        return redirect("/login")
 
     data = request.form["data"]
     hora = request.form["hora"]
