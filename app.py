@@ -26,6 +26,11 @@ app.register_blueprint(
     hospital_bp
 )
 
+# Rota da página inicial
+@app.route("/")
+def index():
+    return render_template("paginainicial.html")
+
 with app.app_context():
     db.create_all()
 
