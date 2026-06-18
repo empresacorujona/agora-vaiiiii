@@ -1,48 +1,286 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Consulta Agendada</title>
 
     <style>
-      body {
-        font-family: Arial;
-        text-align: center;
-        padding: 40px;
-      }
 
-      .card {
-        max-width: 500px;
-        margin: auto;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px #ccc;
-      }
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
 
-      .sucesso {
-        color: green;
-        font-size: 30px;
-        font-weight: bold;
-      }
+        body{
+
+            background:linear-gradient(135deg,#00BCD4,#0097A7);
+
+            min-height:100vh;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            padding:30px;
+
+        }
+
+        .card{
+
+            width:100%;
+            max-width:650px;
+
+            background:rgba(255,255,255,.95);
+
+            border-radius:20px;
+
+            padding:40px;
+
+            text-align:center;
+
+            box-shadow:0 20px 40px rgba(0,0,0,.25);
+
+        }
+
+        .icone{
+
+            font-size:80px;
+
+            margin-bottom:20px;
+
+        }
+
+        .titulo{
+
+            font-size:38px;
+
+            color:#00ACC1;
+
+            margin-bottom:15px;
+
+        }
+
+        .nome{
+
+            font-size:28px;
+
+            color:#333;
+
+            margin-bottom:20px;
+
+        }
+
+        .texto{
+
+            font-size:18px;
+
+            color:#666;
+
+            margin-bottom:35px;
+
+        }
+
+        .info{
+
+            display:flex;
+
+            justify-content:center;
+
+            gap:20px;
+
+            flex-wrap:wrap;
+
+            margin-bottom:35px;
+
+        }
+
+        .caixa{
+
+            background:#E0F7FA;
+
+            width:180px;
+
+            padding:20px;
+
+            border-radius:15px;
+
+            border:2px solid #00BCD4;
+
+        }
+
+        .caixa h4{
+
+            color:#00838F;
+
+            margin-bottom:10px;
+
+        }
+
+        .valor{
+
+            font-size:22px;
+
+            font-weight:bold;
+
+            color:#222;
+
+        }
+
+        .mensagem{
+
+            background:#F1F8E9;
+
+            border-left:6px solid #4CAF50;
+
+            padding:18px;
+
+            border-radius:10px;
+
+            margin-bottom:30px;
+
+            color:#444;
+
+        }
+
+        .botao{
+
+            display:inline-block;
+
+            text-decoration:none;
+
+            background:#00BCD4;
+
+            color:white;
+
+            padding:15px 35px;
+
+            border-radius:12px;
+
+            font-size:18px;
+
+            font-weight:bold;
+
+            transition:.3s;
+
+        }
+
+        .botao:hover{
+
+            background:#0097A7;
+
+            transform:translateY(-3px);
+
+        }
+
+        @media(max-width:600px){
+
+            .titulo{
+
+                font-size:30px;
+
+            }
+
+            .nome{
+
+                font-size:24px;
+
+            }
+
+            .caixa{
+
+                width:100%;
+
+            }
+
+        }
+
     </style>
-  </head>
 
-  <body>
+</head>
+
+<body>
+
     <div class="card">
-      <div class="sucesso">✅ Agendado!</div>
 
-      <h2>{{ nome }}</h2>
+        <div class="icone">
 
-      <p>Sua consulta foi registrada para:</p>
+            ✅
 
-      <h3>{{ data }}</h3>
-      <h3>{{ hora }}</h3>
+        </div>
 
-      <input type="date" value="{{ data }}" readonly />
+        <h1 class="titulo">
+
+            Consulta Agendada!
+
+        </h1>
+
+        <h2 class="nome">
+
+            {{ nome }}
+
+        </h2>
+
+        <p class="texto">
+
+            Sua consulta foi registrada com sucesso em nosso sistema.
+
+            Compareça ao hospital na data e horário informados abaixo.
+
+        </p>
+
+        <div class="info">
+
+            <div class="caixa">
+
+                <h4>📅 Data</h4>
+
+                <div class="valor">
+
+                    {{ data }}
+
+                </div>
+
+            </div>
+
+            <div class="caixa">
+
+                <h4>🕒 Horário</h4>
+
+                <div class="valor">
+
+                    {{ hora }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mensagem">
+
+            ✔ Seu agendamento foi salvo.
+
+            Você poderá consultar seus agendamentos sempre que acessar a página de hospitais.
+
+        </div>
+
+        <a href="/hospitais" class="botao">
+
+            ← Voltar para Hospitais
+
+        </a>
+
     </div>
 
-    <a href="{{ url_for('paginainicial.html') }}" class="btn-voltar">
-      Voltar à Página Inicial
-    </a>
-  </body>
+</body>
+
 </html>
