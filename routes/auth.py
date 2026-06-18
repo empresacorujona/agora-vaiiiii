@@ -114,3 +114,7 @@ def logout():
     session.clear()
 
     return redirect("/login")
+
+@auth_bp.route("/")
+def paginainicial():
+    return render_template("paginainicial.html")
