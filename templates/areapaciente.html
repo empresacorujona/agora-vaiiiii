@@ -1,46 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8" />
-    <title>Área do Paciente Owl Convenial</title>
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/paciente.css') }}" />
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Área do Paciente - OwlConvenial</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+
+            background:#eef5f7;
+            padding:40px;
+
+        }
+
+        .painel-paciente{
+
+            max-width:1100px;
+            margin:auto;
+
+        }
+
+        .paciente-header{
+
+            background:linear-gradient(135deg,#00BCD4,#00E5FF);
+            color:white;
+            border-radius:18px;
+            padding:35px;
+            text-align:center;
+            box-shadow:0 10px 30px rgba(0,0,0,.15);
+            margin-bottom:30px;
+
+        }
+
+        .paciente-header h1{
+
+            font-size:38px;
+            margin-bottom:10px;
+
+        }
+
+        .paciente-header p{
+
+            font-size:18px;
+
+        }
+
+        section{
+
+            background:white;
+            border-radius:18px;
+            padding:30px;
+            margin-bottom:30px;
+            box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+        }
+
+        section h2{
+
+            text-align:center;
+            color:#00BCD4;
+            margin-bottom:30px;
+            font-size:28px;
+
+        }
+
+        .dados-grid{
+
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:20px;
+
+        }
+
+        .dado{
+
+            background:#f8fbfc;
+            border-left:6px solid #00BCD4;
+            border-radius:12px;
+            padding:18px;
+            transition:.3s;
+
+        }
+
+        .dado:hover{
+
+            transform:translateY(-5px);
+            box-shadow:0 8px 20px rgba(0,188,212,.2);
+
+        }
+
+        .dado strong{
+
+            display:block;
+            color:#00BCD4;
+            margin-bottom:8px;
+            font-size:15px;
+
+        }
+
+        .dado span{
+
+            font-size:18px;
+            color:#444;
+
+        }
+
+        .consulta-card{
+
+            border-left:8px solid #00BCD4;
+            background:#fafafa;
+            padding:20px;
+            border-radius:15px;
+            margin-bottom:20px;
+            transition:.3s;
+
+        }
+
+        .consulta-card:hover{
+
+            transform:translateY(-5px);
+            box-shadow:0 10px 25px rgba(0,188,212,.20);
+
+        }
+
+        .consulta-card h3{
+
+            color:#00BCD4;
+            margin-bottom:15px;
+
+        }
+
+        .consulta-card p{
+
+            margin:8px 0;
+            font-size:17px;
+
+        }
+
+        .consulta-vazia{
+
+            text-align:center;
+            padding:30px;
+            background:#f4f4f4;
+            border-radius:12px;
+            font-size:18px;
+            color:#666;
+
+        }
+
+        .botoes{
+
+            text-align:center;
+            margin-top:30px;
+
+        }
+
+        .btn{
+
+            display:inline-block;
+            padding:14px 28px;
+            border-radius:12px;
+            text-decoration:none;
+            color:white;
+            background:#00BCD4;
+            font-size:17px;
+            transition:.3s;
+            margin:8px;
+
+        }
+
+        .btn:hover{
+
+            background:#0097A7;
+            transform:translateY(-3px);
+
+        }
+
+        @media(max-width:700px){
+
+            body{
+
+                padding:15px;
+
+            }
+
+            .paciente-header h1{
+
+                font-size:28px;
+
+            }
+
+        }
+
+    </style>
+
 </head>
 
+<body>
 
 <div class="painel-paciente">
-  <section class="paciente-header">
-    <h1>Olá, {{ paciente.nome }}</h1>
-    <p>Bem-vindo à área do paciente.</p>
-    <p>aqui ficam suas informações e consultas agendadas.</p>
-  </section>
 
-  <section class="consultas-container">
-    <h2>Consultas Agendadas</h2>
+    <section class="paciente-header">
 
-    {% for consulta in consultas %}
+        <h1>
 
-    <div class="consulta-card">
-      <h3>{{ consulta.medico }}</h3>
+            👋 Olá, {{ paciente.nome }}
 
-      <p>
-        <strong>Especialidade:</strong>
-        {{ consulta.especialidade }}
-      </p>
+        </h1>
 
-      <p>
-        <strong>Data:</strong>
-        {{ consulta.data }}
-      </p>
+        <p>
 
-      <p>
-        <strong>Horário:</strong>
-        {{ consulta.horario }}
-      </p>
+            Bem-vindo à Área do Paciente da OwlConvenial
+
+        </p>
+
+        <p>
+
+            Consulte seus dados e acompanhe seus agendamentos.
+
+        </p>
+
+    </section>
+
+    <section>
+
+        <h2>
+
+            📋 Dados Pessoais
+
+        </h2>
+
+        <div class="dados-grid">
+
+            <div class="dado">
+
+                <strong>Nome Completo</strong>
+
+                <span>{{ paciente.nome }}</span>
+
+            </div>
+
+            <div class="dado">
+
+                <strong>E-mail</strong>
+
+                <span>{{ paciente.email }}</span>
+
+            </div>
+
+            <div class="dado">
+
+                <strong>CPF</strong>
+
+                <span>{{ paciente.cpf }}</span>
+
+            </div>
+
+            <div class="dado">
+
+                <strong>Gênero</strong>
+
+                <span>{{ paciente.genero }}</span>
+
+            </div>
+
+            <div class="dado">
+
+                <strong>Data de Nascimento</strong>
+
+                <span>{{ paciente.data_nascimento.strftime("%d/%m/%Y") }}</span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section>
+
+        <h2>
+
+            📅 Consultas Agendadas
+
+        </h2>
+
+        {% if consultas %}
+
+            {% for consulta in consultas %}
+
+            <div class="consulta-card">
+
+                <h3>
+
+                    🏥 {{ consulta.hospital }}
+
+                </h3>
+
+                <p>
+
+                    <strong>Especialidade:</strong>
+
+                    {{ consulta.especialidade }}
+
+                </p>
+
+                <p>
+
+                    <strong>Data:</strong>
+
+                    {{ consulta.data_consulta.strftime("%d/%m/%Y") }}
+
+                </p>
+
+                <p>
+
+                    <strong>Horário:</strong>
+
+                    {{ consulta.horario }}
+
+                </p>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="consulta-vazia">
+
+                Você ainda não possui consultas agendadas.
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+    <div class="botoes">
+
+        <a href="/hospitais" class="btn">
+
+            🏥 Voltar aos Hospitais
+
+        </a>
+
     </div>
 
-    {% else %}
-
-    <div class="consulta-vazia">Nenhuma consulta agendada.</div>
-
-    {% endfor %}
-  </section>
 </div>
+
+</body>
+
+</html>

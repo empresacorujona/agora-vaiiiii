@@ -16,6 +16,7 @@ from services.geolocalizacao import obter_localizacao
 
 from models import (
     db,
+    Usuario,
     Agendamento
 )
 
@@ -179,5 +180,41 @@ def agendar():
         data=data,
 
         hora=hora
+
+    )
+
+
+# ==========================================
+# ÁREA DO PACIENTE
+# ==========================================
+
+@hospital_bp.route("/paciente")
+def paciente():
+
+    if "usuario_id" not in session:
+
+        return redirect("/login")
+
+    paciente = Usuario.query.get(
+        session["usuario_id"]
+    )
+
+    consultas = Agendamento.query.filter_by(
+
+        usuario_id=session["usuario_id"]
+
+    ).order_by(
+
+        Agendamento.data_consulta.asc()
+
+    ).all()
+
+    return render_template(
+
+        "areapaciente.html",
+
+        paciente=paciente,
+
+        consultas=consultas
 
     )
