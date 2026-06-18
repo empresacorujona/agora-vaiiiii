@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cadastro</title>
 
     <!-- Bootstrap 5.3.0 -->
@@ -11,7 +11,9 @@
       rel="stylesheet"
     />
     <!-- Seu CSS customizado -->
-    <link href="/static/cadastro.css" rel="stylesheet" />
+   <link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='cadastro.css') }}"/>
   </head>
 
   <body>
@@ -20,13 +22,18 @@
       <span class="navbar-brand">Navbar</span>
     </nav>
 
-    <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-      <div class="box p-4 border rounded shadow-sm bg-white" style="width: 100%; max-width: 400px;">
+    <div
+      class="container d-flex justify-content-center align-items-center"
+      style="min-height: 80vh"
+    >
+      <div
+        class="box p-4 border rounded shadow-sm bg-white"
+        style="width: 100%; max-width: 400px"
+      >
         <h2 class="text-center mb-4">Cadastro</h2>
 
         <!-- Ajuste: Adicionado action para a rota do Flask (ex: /auth/cadastro ou /cadastro) -->
         <form action="/cadastro" method="POST">
-          
           <!-- Ajuste: Classe alterada para form-control e adicionado required -->
           <div class="mb-3">
             <input
