@@ -30,6 +30,16 @@ def cadastro():
 
         nome = request.form["nome"]
         email = request.form["email"]
+        cpf = request.form["cpf"]
+
+        genero = request.form["genero"]
+
+        from datetime import datetime
+
+        data_nascimento = datetime.strptime(
+        request.form["data_nascimento"],
+        "%Y-%m-%d"
+        ).date()
         senha = request.form["senha"]
 
         usuario_existente = Usuario.query.filter_by(
@@ -45,9 +55,19 @@ def cadastro():
         )
 
         usuario = Usuario(
+
             nome=nome,
+
             email=email,
+
+            cpf=cpf,
+
+            genero=genero,
+
+            data_nascimento=data_nascimento,
+
             senha=senha_hash.decode()
+
         )
 
         db.session.add(usuario)

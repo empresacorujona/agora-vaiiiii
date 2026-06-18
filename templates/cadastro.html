@@ -4,38 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - OwlConvenial</title>
-    <!-- Link para o arquivo CSS externo utilizando Flask url_for -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}" />
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
 </head>
+
 <body>
 
     <div class="card">
+
         <div class="logo">🦉</div>
+
         <h1>OwlConvenial</h1>
-        <p>Crie sua conta e encontre hospitais próximos com facilidade.</p>
+
+        <p>
+            Crie sua conta e encontre hospitais próximos com facilidade.
+        </p>
 
         <form action="/cadastro" method="POST">
+
             <div class="grupo">
                 <label>Nome Completo</label>
-                <input type="text" name="nome" placeholder="Digite seu nome" required>
+
+                <input
+                    type="text"
+                    name="nome"
+                    placeholder="Digite seu nome"
+                    required
+                >
             </div>
 
             <div class="grupo">
                 <label>E-mail</label>
-                <input type="email" name="email" placeholder="Digite seu e-mail" required>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Digite seu e-mail"
+                    required
+                >
+            </div>
+
+            <div class="grupo">
+                <label>CPF</label>
+
+                <input
+                    type="text"
+                    name="cpf"
+                    placeholder="000.000.000-00"
+                    maxlength="14"
+                    required
+                >
+            </div>
+
+            <div class="grupo">
+                <label>Gênero</label>
+
+                <select
+                    name="genero"
+                    required
+                >
+                    <option value="">Selecione...</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Não Binário">Não Binário</option>
+                    <option value="Outro">Outro</option>
+                    <option value="Prefiro não informar">Prefiro não informar</option>
+                </select>
+            </div>
+
+            <div class="grupo">
+                <label>Data de Nascimento</label>
+
+                <input
+                    type="date"
+                    name="data_nascimento"
+                    max="{{ '%Y-%m-%d' }}"
+                    required
+                >
             </div>
 
             <div class="grupo">
                 <label>Senha</label>
-                <input type="password" name="senha" placeholder="Digite sua senha" required>
+
+                <input
+                    type="password"
+                    name="senha"
+                    placeholder="Digite sua senha"
+                    required
+                >
             </div>
 
-            <button type="submit">Criar Conta</button>
+            <button type="submit">
+
+                Criar Conta
+
+            </button>
+
         </form>
 
         <div class="login">
-            Já possui uma conta? <a href="/login">Entrar</a>
+
+            Já possui uma conta?
+
+            <a href="/login">
+
+                Entrar
+
+            </a>
+
         </div>
+
     </div>
 
 </body>
