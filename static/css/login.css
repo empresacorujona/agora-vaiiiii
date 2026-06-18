@@ -8,6 +8,7 @@ h2 {
 
 /*quadrado no meio da tela*/
 div {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     background-color: transparent;
     padding: 30px;
     border-radius: 10px;
@@ -47,7 +48,7 @@ body {
 
 /* Ajusta o tamanho máximo da sua logo */
 .logo {
-    width: 150px; /* Altere para a largura desejada */
+    width: 90px; /* Altere para a largura desejada */
     height: auto; /* Mantém a proporção original da imagem */
     position: absolute;
     top: 40px;
@@ -63,3 +64,8 @@ header {
     padding: 20px 30px;
     width: 100%;
 }
+
+label {
+    border-radius: 2px;
+}
+
