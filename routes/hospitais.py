@@ -98,26 +98,46 @@ def agendar():
     if "usuario_id" not in session:
         return redirect("/login")
 
+    hospital = request.form["hospital"]
+    especialidade = request.form["especialidade"]
     data = request.form["data"]
     hora = request.form["hora"]
-    hospital = request.form["hospital"]
 
     novo_agendamento = Agendamento(
-    usuario_id=session["usuario_id"],
-    data_consulta=datetime.strptime(
-        data,
-        "%Y-%m-%d"
-    ).date(),
-    horario=hora,
-    hospital=hospital
+
+        usuario_id=session["usuario_id"],
+
+        hospital=hospital,
+
+        especialidade=especialidade,
+
+        data_consulta=datetime.strptime(
+            data,
+            "%Y-%m-%d"
+        ).date(),
+
+        horario=hora
+
     )
 
-    db.session.add(novo_agendamento)
+    db.session.add(
+        novo_agendamento
+    )
+
     db.session.commit()
 
     return render_template(
+
         "agendado.html",
+
         nome=session["usuario_nome"],
+
+        hospital=hospital,
+
+        especialidade=especialidade,
+
         data=data,
+
         hora=hora
+
     )
