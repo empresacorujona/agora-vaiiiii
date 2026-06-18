@@ -1,49 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+<head>
+
     <title>Login</title>
 
-    
-  <link rel="stylesheet" href="static/css/login.css">
+    <link rel="stylesheet" href="static/css/login.css">
 
     <!-- Se estiver usando Flask, mantenha esse caminho -->
-  
     <link rel="stylesheet"
-href="{{url_for('static',
-filename='css/login.css')}}">
-    
-  </head>
+    href="{{ url_for('static', filename='css/login.css') }}">
 
-  <body>
+    <style>
+
+      .cadastro-box{
+  
+          margin-top:15px;
+          text-align:center;
+          font-size:15px;
+  
+      }
+  
+      .cadastro-box p{
+  
+          margin:0;
+          color:#f5f5f5;
+  
+      }
+  
+      .cadastre-se{
+  
+          color:#bdbdbd;
+          font-weight:600;
+          text-decoration:none;
+          transition:.25s;
+  
+      }
+  
+      .cadastre-se:hover{
+  
+          color:#ffffff;
+          text-decoration:underline;
+  
+      }
+  
+  </style>
+
+</head>
+
+<body>
+
     <!-- Logo -->
     <a href="static/Assets/img/logo.png">
-      <img src="{{ url_for('static',
-      filename='Assets/img/logo.png') }}">
-      />
+
+        <img src="{{ url_for('static',
+        filename='Assets/img/logo.png') }}">
+
     </a>
 
     <div class="container mt-5">
-      <h2>Login</h2>
 
-      <form method="POST">
-        <input
-          class="form-control mb-3"
-          type="email"
-          name="email"
-          placeholder="Email"
-        />
+        <h2>Realize seu Login!</h2>
 
-        <input
-          class="form-control mb-3"
-          type="password"
-          name="senha"
-          placeholder="Senha"/>
+        <form method="POST">
 
-        <button class="btn btn-primary">Entrar</button>
-        <a href="/cadastro" class="cadastre-se">cadastre-se</a>
-       
+            <input
+                class="form-control mb-3"
+                type="email"
+                name="email"
+                placeholder="Email"
+            />
 
-      </form>
+            <input
+                class="form-control mb-3"
+                type="password"
+                name="senha"
+                placeholder="Senha"
+            />
+
+            <button class="btn btn-primary">
+
+                Entrar
+
+            </button>
+
+            <div class="cadastro-box">
+
+                <p>
+
+                    Não possui uma conta?
+
+                    <a href="/cadastro" class="cadastre-se">
+
+                        Cadastre-se
+
+                    </a>
+
+                </p>
+
+            </div>
+
+        </form>
+
     </div>
-  </body>
+
+</body>
 </html>
