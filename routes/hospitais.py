@@ -100,14 +100,16 @@ def agendar():
 
     data = request.form["data"]
     hora = request.form["hora"]
+    hospital = request.form["hospital"]
 
     novo_agendamento = Agendamento(
-        usuario_id=session["usuario_id"],
-        data_consulta=datetime.strptime(
-            data,
-            "%Y-%m-%d"
-        ).date(),
-        horario=hora
+    usuario_id=session["usuario_id"],
+    data_consulta=datetime.strptime(
+        data,
+        "%Y-%m-%d"
+    ).date(),
+    horario=hora,
+    hospital=hospital
     )
 
     db.session.add(novo_agendamento)

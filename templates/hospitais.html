@@ -1,144 +1,266 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospitais Próximos</title>
-    <h2>Hospitais próximos de {{ cidade }}</h2>
-    <a href="/agendamento">
-      <button>Agendar Consulta</button>
-    </a>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/static/hospitais.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/hospitais.css">
 
     <style>
-      body {
-        background-color: #f4f6f9;
-      }
 
-      .header {
-        background: linear-gradient(135deg, #00ff00, #00ff00);
-        color: white;
-        padding: 30px;
-        border-radius: 15px;
-        margin-bottom: 25px;
-      }
+        body{
+            background:#f4f6f9;
+        }
 
-      .hospital-card {
-        transition: 0.3s;
-      }
+        .header{
+            background:linear-gradient(135deg,#00BCD4,#00E5FF);
+            color:white;
+            padding:30px;
+            border-radius:15px;
+            margin-bottom:25px;
+            text-align:center;
+        }
 
-      .hospital-card:hover {
-        transform: translateY(-5px);
-      }
+        .hospital-card{
+            transition:.3s;
+        }
 
-      .hospital-icon {
-        font-size: 40px;
-      }
+        .hospital-card:hover{
+            transform:translateY(-5px);
+        }
 
-      .footer {
-        margin-top: 40px;
-        text-align: center;
-        color: gray;
-      }
+        .hospital-icon{
+            font-size:40px;
+        }
+
+        .footer{
+            margin-top:40px;
+            text-align:center;
+            color:gray;
+        }
+
+        .btn-ciano{
+            background:#00BCD4;
+            color:white;
+            border:none;
+        }
+
+        .btn-ciano:hover{
+            background:#0097A7;
+            color:white;
+        }
+
+        .titulo{
+            text-align:center;
+            margin-top:20px;
+            margin-bottom:20px;
+        }
+
+        .card-consulta{
+            border:2px solid #00BCD4;
+        }
+
     </style>
-  </head>
 
-  <body>
-    <div class="container mt-4">
-      <div class="header shadow">
+</head>
+
+<body>
+
+<div class="container mt-4">
+
+    <div class="header shadow">
+
         <h1>🏥 Rede Credenciada</h1>
-        <p class="mb-0">Hospitais encontrados próximos à sua localização</p>
-      </div>
-      <hr class="mt-5">
 
-      <h2 class="mb-4">
-          📅 Consultas de {{ nome }}
-      </h2>
-      
-      {% if consultas %}
-      
-      <div class="row">
-      
-          {% for consulta in consultas %}
-      
-          <div class="col-md-4 mb-3">
-      
-              <div class="card shadow-sm border-success">
-      
-                  <div class="card-body">
-      
-                      <h5 class="card-title">
-                          Consulta Agendada
-                      </h5>
-      
-                      <p>
-      
-                          <strong>Data:</strong><br>
-      
-                          {{ consulta.data_consulta.strftime("%d/%m/%Y") }}
-      
-                      </p>
-      
-                      <p>
-      
-                          <strong>Horário:</strong><br>
-      
-                          {{ consulta.horario }}
-      
-                      </p>
-      
-                  </div>
-      
-              </div>
-      
-          </div>
-      
-          {% endfor %}
-      
-      </div>
-      
-      {% else %}
-      
-      <div class="alert alert-info">
-      
-          Você ainda não possui consultas agendadas.
-      
-      </div>
-      
-      {% endif %}
-      <div class="row">
-        {% if hospitais %} {% for hospital in hospitais %}
+        <p class="mb-0">
 
-        <div class="col-md-6 col-lg-4 mb-4">
-          <div class="card hospital-card shadow-sm h-100">
-            <div class="card-body">
-              <div class="text-center mb-3">
-                <div class="hospital-icon">🏥</div>
-              </div>
+            Hospitais encontrados próximos à sua localização
 
-              <h5 class="card-title">
-                {{ hospital.display_name.split(',')[0] }}
-              </h5>
+        </p>
 
-              <hr />
+    </div>
 
-              <p class="card-text">{{ hospital.display_name }}</p>
+    <h2 class="titulo">
+
+        Hospitais próximos de {{ cidade }}
+
+    </h2>
+
+    <div class="text-center mb-4">
+
+        <a href="/agendamento">
+
+            <button class="btn btn-ciano">
+
+                Agendar Consulta
+
+            </button>
+
+        </a>
+
+    </div>
+
+    <hr>
+
+    <h2 class="titulo">
+
+        📅 Consultas de {{ nome }}
+
+    </h2>
+
+    {% if consultas %}
+
+    <div class="row">
+
+        {% for consulta in consultas %}
+
+        <div class="col-md-4 mb-3">
+
+            <div class="card shadow-sm card-consulta">
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title">
+
+                        Consulta Agendada
+
+                    </h5>
+
+                    <p>
+
+                        <strong>Hospital</strong><br>
+
+                        {{ consulta.hospital }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Data</strong><br>
+
+                        {{ consulta.data_consulta.strftime("%d/%m/%Y") }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Horário</strong><br>
+
+                        {{ consulta.horario }}
+
+                    </p>
+
+                </div>
+
             </div>
-          </div>
+
         </div>
 
-        {% endfor %} {% else %}
+        {% endfor %}
 
-        <div class="alert alert-warning">Nenhum hospital encontrado.</div>
+    </div>
+
+    {% else %}
+
+    <div class="alert alert-info text-center">
+
+        Você ainda não possui consultas agendadas.
+
+    </div>
+
+    {% endif %}
+
+    <hr>
+
+    <div class="row">
+
+        {% if hospitais %}
+
+        {% for hospital in hospitais %}
+
+        <div class="col-md-6 col-lg-4 mb-4">
+
+            <div class="card hospital-card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="text-center mb-3">
+
+                        <div class="hospital-icon">
+
+                            🏥
+
+                        </div>
+
+                    </div>
+
+                    <h5 class="card-title text-center">
+
+                        {{ hospital.display_name.split(',')[0] }}
+
+                    </h5>
+
+                    <hr>
+
+                    <p class="card-text">
+
+                        {{ hospital.display_name }}
+
+                    </p>
+
+                    <div class="text-center">
+
+                        <form action="/agendamento" method="GET">
+
+                            <input
+                                type="hidden"
+                                name="hospital"
+                                value="{{ hospital.display_name }}"
+                            >
+
+                            <button
+                                type="submit"
+                                class="btn btn-ciano">
+
+                                Agendar neste hospital
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="alert alert-warning text-center">
+
+            Nenhum hospital encontrado.
+
+        </div>
 
         {% endif %}
-      </div>
 
-      <div class="footer">Sistema de Convênio Médico © 2026</div>
     </div>
-  </body>
+
+    <div class="footer">
+
+        Sistema de Convênio Médico © 2026
+
+    </div>
+
+</div>
+
+</body>
+
 </html>
