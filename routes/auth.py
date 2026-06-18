@@ -55,9 +55,7 @@ def cadastro():
 
         return redirect("/login")
 
-    return render_template(
-        "cadastro.html"
-    )
+    return render_template('cadastro.html')
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
