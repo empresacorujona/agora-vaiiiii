@@ -1,4 +1,17 @@
-<div class="consultas-container">
+<section class="paciente-header">
+
+    <div class="avatar">
+        <i class="fa-solid fa-user"></i>
+    </div>
+
+    <div>
+        <h1>Olá, {{ paciente.nome }}</h1>
+        <p>Área do Paciente</p>
+    </div>
+
+</section>
+
+<div class="consultas">
 
 {% for consulta in consultas %}
 
