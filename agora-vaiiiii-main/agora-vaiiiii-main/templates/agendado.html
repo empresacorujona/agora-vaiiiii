@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Consulta Agendada</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            background:linear-gradient(135deg,#2D7F62,#49bb93);
+
+            padding:30px;
+
+        }
+
+        .card{
+
+            background:white;
+
+            width:100%;
+            max-width:700px;
+
+            border-radius:20px;
+
+            padding:45px;
+
+            text-align:center;
+
+            box-shadow:0 20px 45px rgba(0,0,0,.25);
+
+        }
+
+        .check{
+
+            font-size:80px;
+
+            margin-bottom:20px;
+
+        }
+
+        h1{
+
+            color:#2D7F62;
+
+            margin-bottom:10px;
+
+        }
+
+        .mensagem{
+
+            color:#666;
+
+            margin-bottom:35px;
+
+            font-size:18px;
+
+        }
+
+        .info{
+
+            background:#E0F7FA;
+
+            border-left:8px solid #2D7F62;
+
+            border-radius:12px;
+
+            padding:20px;
+
+            margin-bottom:18px;
+
+            text-align:left;
+
+        }
+
+        .info strong{
+
+            color:#2D7F62;
+
+            display:block;
+
+            margin-bottom:5px;
+
+        }
+
+        .btn{
+
+            display:inline-block;
+
+            margin-top:25px;
+
+            padding:15px 35px;
+
+            text-decoration:none;
+
+            background:#2D7F62;
+
+            color:white;
+
+            border-radius:12px;
+
+            font-size:17px;
+
+            font-weight:bold;
+
+            transition:.3s;
+
+        }
+
+        .btn:hover{
+
+            background:#6d9386;
+
+            transform:translateY(-3px);
+
+        }
+
+        .rodape{
+
+            margin-top:35px;
+
+            color:#888;
+
+            font-size:14px;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="check">
+
+        ✅
+
+    </div>
+
+    <h1>
+
+        Consulta Agendada!
+
+    </h1>
+
+    <div class="mensagem">
+
+        Seu agendamento foi realizado com sucesso.
+
+    </div>
+
+    <div class="info">
+
+        <strong>Paciente</strong>
+
+        {{ nome }}
+
+    </div>
+
+    <div class="info">
+
+        <strong>Hospital</strong>
+
+        {{ hospital }}
+
+    </div>
+
+    <div class="info">
+
+        <strong>Especialidade</strong>
+
+        {{ especialidade }}
+
+    </div>
+
+    <div class="info">
+
+        <strong>Data</strong>
+
+        {{ data }}
+
+    </div>
+
+    <div class="info">
+
+        <strong>Horário</strong>
+
+        {{ hora }}
+
+    </div>
+
+    <a
+        href="/hospitais"
+        class="btn"
+    >
+
+        Voltar aos Hospitais
+
+    </a>
+
+    <div class="rodape">
+
+        OwlConvenial © 2026
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

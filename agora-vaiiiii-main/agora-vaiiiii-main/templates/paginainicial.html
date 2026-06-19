@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>OwlConvenial</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.css') }}">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+
+        <img
+            src="{{ url_for('static', filename='Assets/img/logo.png') }}"
+            alt="Logo OwlConvenial">
+
+        <div class="logo-texto">
+
+            <h2>OwlConvenial</h2>
+
+            <span>Conectando você à saúde.</span>
+
+        </div>
+
+    </div>
+
+    <a href="/login" class="area-paciente">
+
+        Entrar
+
+    </a>
+
+</header>
+
+<div class="barra-ciano"></div>
+
+<section class="hero">
+
+    <div class="hero-texto">
+
+        <span class="tag">
+
+            🩺 Plataforma Inteligente de Saúde
+
+        </span>
+
+        <h1>
+
+            Encontre hospitais próximos e agende consultas com facilidade.
+
+        </h1>
+
+        <p>
+
+            A OwlConvenial conecta você aos hospitais credenciados mais próximos,
+            permitindo localizar unidades de atendimento, escolher especialidades
+            médicas e realizar agendamentos de maneira rápida, prática e segura.
+
+        </p>
+
+        <div class="buttons">
+
+            <a href="/hospitais">
+
+                <button class="btn-primary">
+
+                    🏥 Agendar Consulta
+
+                </button>
+
+            </a>
+
+            <a href="/paciente">
+
+                <button class="btn-primary">
+
+                    👤 Área do Paciente
+
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-imagem">
+
+        <img
+            src="{{ url_for('static', filename='Assets/img/logo.png') }}"
+            alt="Logo OwlConvenial">
+
+    </div>
+
+</section>
+
+<section class="cards">
+
+    <div class="card">
+
+        <div class="icone">
+
+            📍
+
+        </div>
+
+        <h3>
+
+            Hospitais Próximos
+
+        </h3>
+
+        <p>
+
+            Utilize sua localização para encontrar hospitais credenciados ao seu redor.
+
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <div class="icone">
+
+            📅
+
+        </div>
+
+        <h3>
+
+            Agendamento Online
+
+        </h3>
+
+        <p>
+
+            Escolha a especialidade, o hospital, a data e o horário sem enfrentar filas.
+
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <div class="icone">
+
+            🔒
+
+        </div>
+
+        <h3>
+
+            Dados Seguros
+
+        </h3>
+
+        <p>
+
+            Todas as informações dos pacientes são armazenadas com segurança.
+
+        </p>
+
+    </div>
+
+</section>
+
+<section class="como-funciona">
+
+    <h2>
+
+        Como funciona?
+
+    </h2>
+
+    <div class="linha-passos">
+
+        <div class="passo">
+
+            <div class="numero">
+
+                1
+
+            </div>
+
+            <h3>
+
+                Faça Login
+
+            </h3>
+
+            <p>
+
+                Entre na plataforma utilizando sua conta.
+
+            </p>
+
+        </div>
+
+        <div class="passo">
+
+            <div class="numero">
+
+                2
+
+            </div>
+
+            <h3>
+
+                Localize Hospitais
+
+            </h3>
+
+            <p>
+
+                Visualize os hospitais próximos da sua localização.
+
+            </p>
+
+        </div>
+
+        <div class="passo">
+
+            <div class="numero">
+
+                3
+
+            </div>
+
+            <h3>
+
+                Escolha a Especialidade
+
+            </h3>
+
+            <p>
+
+                Selecione a especialidade médica desejada.
+
+            </p>
+
+        </div>
+
+        <div class="passo">
+
+            <div class="numero">
+
+                4
+
+            </div>
+
+            <h3>
+
+                Confirme
+
+            </h3>
+
+            <p>
+
+                Pronto! Sua consulta estará agendada.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="trust-bar">
+
+    <div class="trust-item">
+
+        🔒 Dados protegidos
+
+    </div>
+
+    <div class="trust-item">
+
+        🏥 Hospitais credenciados
+
+    </div>
+
+    <div class="trust-item">
+
+        📅 Agendamento remoto
+
+    </div>
+
+    <div class="trust-item">
+
+        📍 Geolocalização integrada
+
+    </div>
+
+</section>
+
+<footer>
+
+    <p>
+
+        © 2026 OwlConvenial • Projeto Integrador • Desenvolvimento de Sistemas
+
+    </p>
+
+    <a href="/sobrenos" class="btn-sobre">
+
+        ℹ️ Sobre Nós
+
+    </a>
+
+</footer>
+
+</body>
+
+</html>

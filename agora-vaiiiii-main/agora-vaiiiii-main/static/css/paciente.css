@@ -1,0 +1,37 @@
+.paciente-header{
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+.paciente-header h1{
+    color: #164736;
+}
+
+.consulta-card{
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+
+.consulta-card h3{
+    color: #2D7F62;
+    margin-bottom: 10px;
+    background-color: #2D7F62;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.consulta-vazia{
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    color: #777;
+}
+

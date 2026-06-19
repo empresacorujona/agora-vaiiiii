@@ -1,0 +1,52 @@
+/* dash.css */
+
+body {
+    background-color: #f4f6f9;
+    font-family: 'Inter', sans-serif;
+}
+
+.header {
+    background: linear-gradient(135deg, #2D7F62, #4bae8a);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.hospital-card {
+    transition: 0.3s;
+    border: none;
+}
+
+.hospital-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+.hospital-icon {
+    font-size: 40px;
+}
+
+.card-title {
+    font-weight: 700;
+    color: #1c2b3a;
+}
+
+.card-text {
+    color: #5a5a72;
+    font-size: 14px;
+}
+
+.footer {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #aaa;
+    font-size: 14px;
+}

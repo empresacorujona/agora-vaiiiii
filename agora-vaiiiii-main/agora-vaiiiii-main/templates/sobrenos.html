@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sobre Nós - OwlConvenial</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#f4f7f9;
+            color:#333;
+        }
+
+        header{
+            background:linear-gradient(135deg,#27c68f,#2D7F62);
+            color:white;
+            text-align:center;
+            padding:45px 20px;
+            box-shadow:0 4px 12px rgba(0,0,0,.15);
+        }
+
+        header h1{
+            font-size:40px;
+            margin-bottom:10px;
+        }
+
+        header p{
+            font-size:18px;
+        }
+
+        .container{
+            width:90%;
+            max-width:1200px;
+            margin:50px auto;
+        }
+
+        .membro{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:40px;
+            background:white;
+            border-radius:18px;
+            padding:35px;
+            margin-bottom:35px;
+            box-shadow:0 10px 25px rgba(0,0,0,.08);
+        }
+
+        .texto{
+            flex:2;
+        }
+
+        .texto h2{
+            color:#2D7F62;
+            margin-bottom:10px;
+        }
+
+        .texto h3{
+            color:#555;
+            margin-bottom:20px;
+        }
+
+        .texto p{
+            line-height:1.8;
+            text-align:justify;
+        }
+
+        .foto{
+            flex:1;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
+
+        /* FOTO DOS MEMBROS */
+        .foto-perfil{
+            width:230px;
+            height:230px;
+            object-fit:cover;
+            border-radius:18px;
+            border:4px solid #2D7F62;
+            box-shadow:0 8px 20px rgba(0,0,0,.15);
+        }
+
+        /* PLACEHOLDER DOS MEMBROS SEM FOTO */
+        .placeholder{
+            width:230px;
+            height:230px;
+            border:3px dashed #2D7F62;
+            border-radius:18px;
+            background:#eefcff;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#2D7F62;
+            font-size:18px;
+            font-weight:bold;
+            text-align:center;
+            padding:15px;
+        }
+
+        .voltar{
+            text-align:center;
+            margin:50px 0;
+        }
+
+        .voltar a{
+            text-decoration:none;
+            background:#2D7F62;
+            color:white;
+            padding:15px 35px;
+            border-radius:12px;
+            font-weight:bold;
+            transition:.3s;
+        }
+
+        .voltar a:hover{
+            background:#406558;
+        }
+
+        footer{
+            margin-top:60px;
+            background:white;
+            border-top:1px solid #ddd;
+            padding:30px;
+            text-align:center;
+            color:#666;
+        }
+
+        @media(max-width:900px){
+
+            .membro{
+                flex-direction:column;
+                text-align:center;
+            }
+
+            .texto p{
+                text-align:left;
+            }
+
+            .foto-perfil,
+            .placeholder{
+                width:200px;
+                height:200px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>🦉 Sobre a OwlConvenial</h1>
+
+    <p>
+        Conheça os desenvolvedores responsáveis pelo projeto.
+    </p>
+
+</header>
+
+<div class="container">
+
+    <!-- MATEUS -->
+    <div class="membro">
+
+        <div class="texto">
+
+            <h2>Mateus Gabriel</h2>
+
+            <h3>Programador SQL</h3>
+
+            <p>
+
+                Responsável pela modelagem do banco de dados, consultas SQL e
+                integração das informações do sistema. É conhecido pela equipe
+                como o "Cartman" do grupo: sempre muito comunicativo, gosta de
+                conversar, organizar as ideias do time e manter todos alinhados
+                durante o desenvolvimento do projeto. Seu foco é garantir que
+                todas as informações sejam armazenadas e recuperadas de forma
+                eficiente.
+
+            </p>
+
+        </div>
+
+        <div class="foto">
+
+            <img
+                src="{{ url_for('static', filename='Assets/img/WhatsApp Image 2026-06-18 at 20.56.34.jpeg') }}"
+                alt="Mateus Gabriel"
+                class="foto-perfil"
+            >
+
+        </div>
+
+    </div>
+
+    <!-- CHRISTOPHER -->
+    <div class="membro">
+
+        <div class="texto">
+
+            <h2>Christopher Gabriel</h2>
+
+            <h3>Programador Back-End</h3>
+
+            <p>
+
+                Responsável pela lógica da aplicação, APIs, autenticação e
+                funcionamento interno do sistema. É facilmente reconhecido pelo
+                seu grande nariz e por sua inspiradora vontade de programar.
+                Mesmo quando o código resolve errar algumas vezes, ele sempre
+                persiste até encontrar a solução ideal, contribuindo para a
+                estabilidade do projeto.
+
+            </p>
+
+        </div>
+
+        <div class="foto">
+
+            <img
+                src="{{ url_for('static', filename='Assets/img/chisto.png') }}"
+                alt="Christopher-Gabriel"
+                class="foto-perfil"
+            >
+
+        </div>
+
+    </div>
+
+    <!-- ANDERSON -->
+    <div class="membro">
+
+        <div class="texto">
+
+            <h2>Anderson Mugambhi</h2>
+
+            <h3>Programador Front-End</h3>
+
+            <p>
+
+                Responsável pela interface visual da OwlConvenial e pela
+                experiência do usuário. É perfeccionista, bastante reclamão,
+                mas extremamente dedicado em manter todas as telas organizadas,
+                bonitas e intuitivas para os usuários.
+
+            </p>
+
+        </div>
+
+        <div class="foto">
+
+            <img
+                src="{{ url_for('static', filename='Assets/img/ce86630b-63ba-494f-ba22-f03146742270.jpeg') }}"
+                alt="Anderson-Mugambhi"
+                class="foto-perfil"
+            >
+
+        </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="voltar">
+
+    <a href="/">
+
+        🏠 Voltar para a Página Inicial
+
+    </a>
+
+</div>
+
+<footer>
+
+    <strong>OwlConvenial © 2026</strong>
+
+    <br><br>
+
+    Projeto Integrador desenvolvido pelos alunos do
+    3º ano do Ensino Médio Técnico em Desenvolvimento de Sistemas.
+
+</footer>
+
+</body>
+
+</html>
