@@ -4,10 +4,8 @@ class Config:
     SECRET_KEY = "senha_super_secreta"
 
     SQLALCHEMY_DATABASE_URI = (
-    "postgresql+psycopg2://postgres:123456@localhost:5436/convenio_db"
+    "postgresql+psycopg2://postgres:123456@localhost:5432/convenio_db"
 )
-
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

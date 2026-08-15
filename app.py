@@ -1,9 +1,12 @@
-from datetime import datetime
-# 1. Corrigido: Incluída a importação do render_template no topo
-from flask import Flask, redirect, request, render_template, session
+from datetime import (
+    datetime,  # 1. Corrigido: Incluída a importação do render_template no topo
+)
 
-from config import Config
-# 2. Centralizado: O db deve vir de models para manter a consistência
+from flask import Flask, redirect, render_template, request, session
+
+from config import (
+    Config,  # 2. Centralizado: O db deve vir de models para manter a consistência
+)
 from models import Agendamento, db
 from routes.auth import auth_bp
 from routes.hospitais import hospital_bp
