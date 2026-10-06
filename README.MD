@@ -22,3 +22,8 @@ ass andison
 TRABALHO CONCLUIDO
 
 logo logo vem tcc
+
+Iniciando agora o TCC
+data de entrega: 02/12
+
+kanban no grupo do zap
