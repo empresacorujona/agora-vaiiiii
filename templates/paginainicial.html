@@ -38,11 +38,18 @@
 
     </div>
 
-    <a href="/login" class="area-paciente">
-
-        Entrar
-
-    </a>
+    {% if usuario_logado %}
+    <div class="conta-logada">
+        <span>Olá, {{ usuario_nome_logado }}</span>
+        <a href="/paciente" class="area-paciente">Minha conta</a>
+        <a href="/logout" class="area-paciente sair">Sair</a>
+    </div>
+    {% else %}
+    <div class="acesso-conta">
+        <a href="/login" class="area-paciente">Entrar</a>
+        <a href="/cadastro" class="area-paciente criar-conta">Criar conta</a>
+    </div>
+    {% endif %}
 
 </header>
 
@@ -74,25 +81,12 @@
 
         <div class="buttons">
 
-            <a href="/hospitais">
-
-                <button class="btn-primary">
-
-                    🏥 Agendar Consulta
-
-                </button>
-
-            </a>
-
-            <a href="/paciente">
-
-                <button class="btn-primary">
-
-                    👤 Área do Paciente
-
-                </button>
-
-            </a>
+            <a href="{{ '/hospitais' if usuario_logado else '/login' }}" class="btn-primary">🏥 Agendar Consulta</a>
+            {% if usuario_logado %}
+            <a href="/paciente" class="btn-secondary">👤 Área do Paciente</a>
+            {% else %}
+            <a href="/cadastro" class="btn-secondary">✨ Criar minha conta</a>
+            {% endif %}
 
         </div>
 
@@ -106,6 +100,15 @@
 
     </div>
 
+</section>
+
+<section class="apoio-projeto">
+    <div>
+        <span class="tag">💚 Apoie a iniciativa</span>
+        <h2>Ajude a manter este projeto em evolução.</h2>
+        <p>Contribuições voluntárias são processadas com segurança pelo checkout do Mercado Pago.</p>
+    </div>
+    <a href="{{ '/doacoes' if usuario_logado else '/login' }}" class="btn-primary">Fazer uma doação</a>
 </section>
 
 <section class="cards">

@@ -36,8 +36,10 @@ class Usuario(db.Model):
     email = db.Column(
         db.String(200),
         unique=True,
-        nullable=False
+        nullable=True
     )
+
+    telefone = db.Column(db.String(20), unique=True, nullable=True)
 
     senha = db.Column(
         db.String(255),
@@ -54,6 +56,8 @@ class Usuario(db.Model):
         backref="usuario",
         lazy=True
     )
+
+    doacoes = db.relationship("Doacao", backref="usuario", lazy=True)
 
 
 class Agendamento(db.Model):
@@ -93,3 +97,18 @@ class Agendamento(db.Model):
     def __repr__(self):
 
         return f"<Agendamento {self.hospital}>"
+
+
+class Doacao(db.Model):
+    __tablename__ = "doacoes"
+
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey("usuarios.id"), nullable=False)
+    valor_centavos = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.String(30), nullable=False, default="pending")
+    mercado_pago_preference_id = db.Column(db.String(100), unique=True)
+    mercado_pago_payment_id = db.Column(db.String(100), unique=True)
+    criado_em = db.Column(db.DateTime, nullable=False, default=db.func.now())
+
+    def __repr__(self):
+        return f"<Doacao {self.id} {self.status}>"

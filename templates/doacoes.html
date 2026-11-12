@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apoie o OwlConvenial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:28px;font-family:Inter,Arial,sans-serif;background:#edf5f0;color:#243b32}
+    .topo{max-width:1000px;margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center;gap:16px}.topo a,.botao{color:white;background:#2D7F62;text-decoration:none;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer}
+    .pagina{max-width:1000px;margin:auto}.hero,.painel{background:white;border-radius:20px;padding:32px;box-shadow:0 10px 30px #173f2b12;margin-bottom:22px}.hero{background:linear-gradient(135deg,#2D7F62,#49bb93);color:white}.hero h1{font-size:34px;margin:0 0 12px}.hero p{max-width:700px;line-height:1.7;margin:0;color:#effbf5}
+    .form-doacao{display:flex;gap:14px;align-items:end;flex-wrap:wrap}.campo{flex:1;min-width:220px}.campo label{display:block;font-weight:700;margin-bottom:8px}.campo input{width:100%;padding:14px;border:1px solid #c8ded2;border-radius:10px;font:inherit}.ajuda{font-size:14px;color:#66776e}.linha{border:0;border-top:1px solid #e5eee9;margin:20px 0}.doacao{display:grid;grid-template-columns:1fr auto;gap:8px;padding:16px 0;border-bottom:1px solid #e5eee9}.status{color:#2D7F62;font-weight:700}.mensagens{max-width:1000px;margin:0 auto 14px}.mensagem{padding:12px 16px;margin:8px 0;border-radius:10px;background:white}.mensagem-danger{background:#ffe5e5}.mensagem-warning{background:#fff2cc}.mensagem-success{background:#dff5e7}.mensagem-info{background:#e1f3fb}
+    @media(max-width:600px){body{padding:14px}.hero,.painel{padding:22px}.hero h1{font-size:27px}.topo{align-items:flex-start;flex-direction:column}.form-doacao .botao{width:100%}}
+  </style>
+</head>
+<body>
+  {% include '_mensagens.html' %}
+  <nav class="topo"><strong>🦉 OwlConvenial</strong><a href="/">Voltar ao início</a></nav>
+  <main class="pagina">
+    <section class="hero"><h1>Apoie o OwlConvenial 💚</h1><p>Sua contribuição voluntária ajuda a manter e evoluir este projeto. O pagamento acontece em ambiente seguro do Mercado Pago; o status só muda após a confirmação do provedor.</p></section>
+    <section class="painel">
+      <h2>Escolha o valor da sua doação</h2>
+      <p class="ajuda">Pagamento único, a partir de R$ 1,00. Nenhum dado de cartão é armazenado por este sistema.</p>
+      <form class="form-doacao" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="campo"><label for="valor">Valor (R$)</label><input id="valor" name="valor" type="number" min="1.00" max="100000.00" step="0.01" placeholder="25,00" required></div>
+        <button class="botao" type="submit">Continuar para pagamento</button>
+      </form>
+    </section>
+    <section class="painel">
+      <h2>Minhas doações</h2>
+      {% if doacoes %}
+        {% for doacao in doacoes %}
+          <div class="doacao"><div><strong>Doação #{{ doacao.id }}</strong><br><span class="ajuda">{{ doacao.criado_em.strftime('%d/%m/%Y %H:%M') }}</span></div><div style="text-align:right"><strong>R$ {{ '%.2f'|format(doacao.valor_centavos / 100) }}</strong><br><span class="status">{{ status_labels.get(doacao.status, doacao.status) }}</span></div></div>
+        {% endfor %}
+      {% else %}<p class="ajuda">Você ainda não realizou doações.</p>{% endif %}
+    </section>
+  </main>
+</body>
+</html>

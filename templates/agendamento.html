@@ -232,6 +232,7 @@
     </div>
 
     <form action="/agendar" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
         <input
             type="hidden"

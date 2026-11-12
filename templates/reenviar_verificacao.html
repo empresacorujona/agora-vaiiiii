@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmar e-mail | OwlConvenial</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+</head>
+<body>
+  {% include '_mensagens.html' %}
+  <main class="card">
+    <div class="logo">✉️</div>
+    <h1>Reenviar confirmação</h1>
+    <p>Informe o e-mail usado no cadastro para receber um novo link de ativação.</p>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <div class="grupo"><label for="email">E-mail</label><input id="email" type="email" name="email" required></div>
+      <button type="submit">Enviar novo link</button>
+    </form>
+    <div class="login"><a href="/login">Voltar ao login</a></div>
+  </main>
+</body>
+</html>

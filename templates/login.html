@@ -4,9 +4,6 @@
 
     <title>Login</title>
 
-    <link rel="stylesheet" href="static/css/login.css">
-
-    <!-- Se estiver usando Flask, mantenha esse caminho -->
     <link rel="stylesheet"
     href="{{ url_for('static', filename='css/login.css') }}">
 
@@ -49,6 +46,8 @@
 
 <body>
 
+    {% include '_mensagens.html' %}
+
     <!-- Logo -->
     <a href="static/Assets/img/logo.png">
 
@@ -62,12 +61,14 @@
         <h2>Realize seu Login!</h2>
 
         <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
             <input
                 class="form-control mb-3"
-                type="email"
-                name="email"
-                placeholder="Email"
+                type="text"
+                name="identificador"
+                required
+                placeholder="E-mail ou telefone"
             />
 
             <input
@@ -75,6 +76,7 @@
                 type="password"
                 name="senha"
                 placeholder="Senha"
+                required
             />
 
             <button class="btn btn-primary">
@@ -97,6 +99,10 @@
 
                 </p>
 
+            </div>
+
+            <div class="cadastro-box">
+                <a href="/reenviar-verificacao" class="cadastre-se">Não recebeu o e-mail de confirmação?</a>
             </div>
 
         </form>

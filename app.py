@@ -1,73 +1,70 @@
-from datetime import (
-    datetime,  # 1. Corrigido: Incluída a importação do render_template no topo
-)
+import hmac
+import secrets
 
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
+from sqlalchemy import inspect, text
 
-from config import (
-    Config,  # 2. Centralizado: O db deve vir de models para manter a consistência
-)
-from models import Agendamento, db
+from config import Config
+from models import db
 from routes.auth import auth_bp
+from routes.doacoes import doacao_bp
 from routes.hospitais import hospital_bp
+from services.email_service import mail
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
-# Inicializa o banco de dados
 db.init_app(app)
+mail.init_app(app)
 
-# Registro de Blueprints
 app.register_blueprint(auth_bp)
 app.register_blueprint(hospital_bp)
+app.register_blueprint(doacao_bp)
 
 
-# Rota Inicial
+@app.context_processor
+def dados_da_sessao():
+    if "csrf_token" not in session:
+        session["csrf_token"] = secrets.token_urlsafe(32)
+    return {
+        "usuario_logado": bool(session.get("usuario_id")),
+        "usuario_nome_logado": session.get("usuario_nome"),
+        "csrf_token": session["csrf_token"],
+    }
+
+
+@app.before_request
+def proteger_requisicoes_post():
+    if request.method == "POST" and request.endpoint != "doacoes.webhook":
+        enviado = request.form.get("csrf_token", "")
+        esperado = session.get("csrf_token", "")
+        if not esperado or not hmac.compare_digest(enviado, esperado):
+            abort(400, description="Formulário expirado. Atualize a página e tente novamente.")
+
+
 @app.route("/")
 def index():
     return render_template("paginainicial.html")
 
 
-# Rota de Agendamento (Movida para antes do app.run)
-@app.route("/agendar", methods=["POST"])
-def agendar():
-    usuario_id = session.get("usuario_id")
-
-    if not usuario_id:
-        return redirect("/login")
-
-    data = request.form["data"]
-    hora = request.form["hora"]
-
-    # Converte a string da data para objeto date do Python
-    data_formatada = datetime.strptime(data, "%Y-%m-%d").date()
-
-    novo_agendamento = Agendamento(
-        usuario_id=usuario_id, data_consulta=data_formatada, horario=hora
-    )
-
-    # 3. Corrigido: Utiliza o db importado de models que foi inicializado no app
-    db.session.add(novo_agendamento)
-    db.session.commit()
-
-    return render_template(
-        "agendado.html", nome=session.get("usuario_nome"), data=data, hora=hora
-    )
-
-
-# Criação das tabelas dentro do contexto do app
-with app.app_context():
-    db.create_all()
-
 @app.route("/sobrenos")
 def sobrenos():
+    return render_template("sobrenos.html")
 
-    return render_template(
 
-        "sobrenos.html"
+@app.errorhandler(404)
+def nao_encontrado(_error):
+    flash("A página solicitada não foi encontrada.", "warning")
+    return redirect(url_for("index"))
 
-    )
 
-# Inicialização do Servidor (Sempre no final do arquivo)
+with app.app_context():
+    db.create_all()
+    # Compatibilidade com bancos locais criados antes do campo de telefone.
+    if "telefone" not in {column["name"] for column in inspect(db.engine).get_columns("usuarios")}:
+        with db.engine.begin() as connection:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN telefone VARCHAR(20)"))
+            connection.execute(text("CREATE UNIQUE INDEX IF NOT EXISTS uq_usuarios_telefone ON usuarios (telefone)"))
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=app.config["DEBUG"])

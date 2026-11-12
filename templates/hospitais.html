@@ -69,6 +69,14 @@
 
 <body>
 
+<div class="container mt-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
+    <span class="fw-semibold">👤 Olá, {{ nome }}</span>
+    <a href="/paciente" class="btn btn-outline-success">Minha conta</a>
+    <a href="/doacoes" class="btn btn-outline-success">Doar</a>
+    <a href="/logout" class="btn btn-secondary">Sair</a>
+</div>
+{% include '_mensagens.html' %}
+
 <div class="container mt-4">
 
     <h2 class="titulo">

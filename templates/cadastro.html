@@ -10,6 +10,8 @@
 
 <body>
 
+    {% include '_mensagens.html' %}
+
     <div class="card">
 
         <div class="logo">🦉</div>
@@ -21,6 +23,7 @@
         </p>
 
         <form action="/cadastro" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
             <div class="grupo">
                 <label>Nome Completo</label>
@@ -40,8 +43,17 @@
                     type="email"
                     name="email"
                     placeholder="Digite seu e-mail"
-                    required
                 >
+            </div>
+
+            <div class="grupo">
+                <label>Telefone (informe e-mail ou telefone)</label>
+                <input type="tel" name="telefone" placeholder="(11) 99999-9999" autocomplete="tel">
+            </div>
+
+            <div class="grupo">
+                <label>Telefone (opcional)</label>
+                <input type="tel" name="telefone" placeholder="(11) 99999-9999" autocomplete="tel">
             </div>
 
             <div class="grupo">
@@ -78,7 +90,6 @@
                 <input
                     type="date"
                     name="data_nascimento"
-                    max="{{ '%Y-%m-%d' }}"
                     required
                 >
             </div>
@@ -90,6 +101,7 @@
                     type="password"
                     name="senha"
                     placeholder="Digite sua senha"
+                    minlength="8"
                     required
                 >
             </div>

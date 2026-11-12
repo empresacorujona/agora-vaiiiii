@@ -1,8 +1,0 @@
-Flask
-Flask-SQLAlchemy
-psycopg2-binary
-bcrypt
-requests
-Flask-Mail
-python-dotenv
-itsdangerous

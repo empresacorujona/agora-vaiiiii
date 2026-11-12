@@ -66,6 +66,17 @@ body{
     background:#f0f0f0;
 }
 
+.acesso-conta,.conta-logada{display:flex;align-items:center;gap:12px;color:#fff;font-weight:600}
+.area-paciente.criar-conta{background:#a8d9c6}
+.area-paciente.sair{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55)}
+.buttons .btn-primary,.buttons .btn-secondary{display:inline-block;text-decoration:none}
+.apoio-projeto{max-width:1180px;margin:0 auto 70px;padding:36px 42px;border-radius:20px;background:#1f4d3f;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.apoio-projeto h2{font-size:30px;color:#fff;margin:8px 0}
+.apoio-projeto p{color:#e5e7eb;line-height:1.7;margin-top:10px}
+.mensagens{max-width:900px;margin:18px auto;padding:0 20px}
+.mensagem{padding:12px 16px;margin:8px 0;border-radius:10px;background:#fff;color:#244536}
+.mensagem-danger{background:#ffe5e5;color:#8e2222}.mensagem-warning{background:#fff2cc;color:#715400}.mensagem-success{background:#dff5e7;color:#205a37}.mensagem-info{background:#e1f3fb;color:#18536b}
+
 /* ===========================
    BARRA SUPERIOR
 =========================== */
@@ -352,6 +363,8 @@ footer p{
 
     .header{
         padding:20px;
+        gap:18px;
+        flex-wrap:wrap;
     }
 
     .hero{
@@ -371,5 +384,9 @@ footer p{
     .buttons{
         justify-content:center;
     }
+
+    .apoio-projeto{margin:0 20px 40px;flex-direction:column;text-align:center;padding:28px}
+
+    .conta-logada{flex-wrap:wrap;justify-content:center}
 
 }
