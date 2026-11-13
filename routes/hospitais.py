@@ -5,12 +5,17 @@ from flask import (
     render_template,
     request,
     session,
-    redirect
+    redirect,
+    flash,
+    url_for
 )
 
 import requests
 
 from datetime import datetime
+from datetime import date
+import re
+from sqlalchemy.exc import IntegrityError
 
 from services.geolocalizacao import obter_localizacao
 
@@ -43,6 +48,8 @@ def hospitais():
 
     else:
 
+        flash("Não conseguimos localizar sua região pelo IP; os resultados serão de São Paulo.", "info")
+
         latitude = -23.55052
         longitude = -46.633308
 
@@ -63,17 +70,15 @@ def hospitais():
 
     }
 
-    resposta = requests.get(
-
-        url,
-
-        headers=headers,
-
-        timeout=30
-
-    )
-
-    hospitais = resposta.json()
+    try:
+        resposta = requests.get(url, headers=headers, timeout=10)
+        resposta.raise_for_status()
+        hospitais = resposta.json()
+        if not isinstance(hospitais, list):
+            hospitais = []
+    except (requests.RequestException, ValueError):
+        hospitais = []
+        flash("A busca de hospitais está temporariamente indisponível. Tente novamente.", "warning")
 
     consultas = Agendamento.query.filter_by(
 
@@ -94,6 +99,7 @@ def hospitais():
         cidade=localizacao["cidade"] if localizacao else "São Paulo",
 
         consultas=consultas,
+        hoje=date.today(),
 
         nome=session["usuario_nome"]
 
@@ -107,13 +113,20 @@ def tela_agendamento():
 
         return redirect("/login")
 
-    hospital = request.args.get("hospital")
+    hospital = request.args.get("hospital", "").strip()[:300]
+    if not hospital:
+        flash("Escolha um hospital para continuar.", "warning")
+        return redirect(url_for("hospital.hospitais"))
 
     return render_template(
 
         "agendamento.html",
 
-        hospital=hospital
+        hospital=hospital,
+        hoje=date.today().isoformat(),
+        especialidade=request.args.get("especialidade", ""),
+        data=request.args.get("data", ""),
+        hora=request.args.get("hora", "")
 
     )
 
@@ -131,13 +144,20 @@ def agendar():
 
         return redirect("/login")
 
-    hospital = request.form["hospital"]
-
-    especialidade = request.form["especialidade"]
-
-    data = request.form["data"]
-
-    hora = request.form["hora"]
+    hospital = request.form.get("hospital", "").strip()
+    especialidade = request.form.get("especialidade", "").strip()
+    data = request.form.get("data", "")
+    hora = request.form.get("hora", "")
+    especialidades = {"Clínico Geral", "Cardiologia", "Dermatologia", "Endocrinologia", "Gastroenterologia", "Ginecologia", "Neurologia", "Nutrição", "Oftalmologia", "Ortopedia", "Otorrinolaringologia", "Pediatria", "Pneumologia", "Psiquiatria", "Psicologia", "Reumatologia", "Urologia"}
+    try:
+        data_consulta = datetime.strptime(data, "%Y-%m-%d").date()
+    except ValueError:
+        data_consulta = None
+    horario_valido = bool(re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", hora))
+    horario_passado = bool(data_consulta == date.today() and horario_valido and hora <= datetime.now().strftime("%H:%M"))
+    if not hospital or len(hospital) > 300 or especialidade not in especialidades or not data_consulta or data_consulta < date.today() or not horario_valido or horario_passado:
+        flash("Confira hospital, especialidade, data futura e horário válido.", "danger")
+        return redirect(url_for("hospital.tela_agendamento", hospital=hospital, especialidade=especialidade, data=data, hora=hora))
 
     novo_agendamento = Agendamento(
 
@@ -147,13 +167,7 @@ def agendar():
 
         especialidade=especialidade,
 
-        data_consulta=datetime.strptime(
-
-            data,
-
-            "%Y-%m-%d"
-
-        ).date(),
+        data_consulta=data_consulta,
 
         horario=hora
 
@@ -165,7 +179,12 @@ def agendar():
 
     )
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        flash("Esse horário já foi reservado. Escolha outro horário.", "warning")
+        return redirect(url_for("hospital.tela_agendamento", hospital=hospital, especialidade=especialidade, data=data, hora=hora))
 
     return render_template(
 
@@ -184,6 +203,23 @@ def agendar():
     )
 
 
+@hospital_bp.route("/agendamento/<int:agendamento_id>/cancelar", methods=["POST"])
+def cancelar_agendamento(agendamento_id):
+    if "usuario_id" not in session:
+        return redirect(url_for("auth.login"))
+    consulta = Agendamento.query.filter_by(id=agendamento_id, usuario_id=session["usuario_id"]).first_or_404()
+    passou = consulta.data_consulta < date.today() or (
+        consulta.data_consulta == date.today() and consulta.horario <= datetime.now().strftime("%H:%M")
+    )
+    if passou:
+        flash("Consultas passadas não podem ser canceladas.", "warning")
+    else:
+        db.session.delete(consulta)
+        db.session.commit()
+        flash("Agendamento cancelado.", "success")
+    return redirect(url_for("hospital.paciente"))
+
+
 # ==========================================
 # ÁREA DO PACIENTE
 # ==========================================
@@ -195,9 +231,13 @@ def paciente():
 
         return redirect("/login")
 
-    paciente = Usuario.query.get(
+    paciente = db.session.get(Usuario,
         session["usuario_id"]
     )
+    if not paciente:
+        session.clear()
+        flash("Sua sessão expirou. Entre novamente para continuar.", "info")
+        return redirect(url_for("auth.login"))
 
     consultas = Agendamento.query.filter_by(
 
@@ -215,6 +255,8 @@ def paciente():
 
         paciente=paciente,
 
-        consultas=consultas
+        consultas=consultas,
+        hoje=date.today(),
+        hora_atual=datetime.now().strftime("%H:%M")
 
     )

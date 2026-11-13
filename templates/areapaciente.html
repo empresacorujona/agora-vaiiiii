@@ -209,6 +209,8 @@
 
 <body>
 
+{% include '_mensagens.html' %}
+
 <div style="max-width:1100px;margin:0 auto 18px;text-align:right;display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap">
     <a href="/doacoes" class="btn">💚 Apoiar o projeto</a>
     <a href="/logout" class="btn">Sair da conta</a>
@@ -258,9 +260,9 @@
 
             <div class="dado">
 
-                <strong>E-mail</strong>
+                <strong>{{ "E-mail" if paciente.email else "Telefone" }}</strong>
 
-                <span>{{ paciente.email }}</span>
+                <span>{{ paciente.email or paciente.telefone or "Não informado" }}</span>
 
             </div>
 
@@ -296,7 +298,7 @@
 
         <h2>
 
-            📅 Consultas Agendadas
+            📅 Solicitações de horário
 
         </h2>
 
@@ -333,8 +335,14 @@
                     <strong>Horário:</strong>
 
                     {{ consulta.horario }}
-
                 </p>
+
+                {% if consulta.data_consulta > hoje or (consulta.data_consulta == hoje and consulta.horario > hora_atual) %}
+                <form method="post" action="{{ url_for('hospital.cancelar_agendamento', agendamento_id=consulta.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button class="btn" type="submit">Cancelar consulta</button>
+                </form>
+                {% endif %}
 
             </div>
 
@@ -344,7 +352,7 @@
 
             <div class="consulta-vazia">
 
-                Você ainda não possui consultas agendadas.
+                Você ainda não possui solicitações de horário.
 
             </div>
 

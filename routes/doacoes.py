@@ -110,7 +110,12 @@ def pagina_doacoes():
             return redirect(url_for("doacoes.pagina_doacoes"))
 
     doacoes = Doacao.query.filter_by(usuario_id=user_id).order_by(Doacao.criado_em.desc()).all()
-    return render_template("doacoes.html", doacoes=doacoes, status_labels=STATUS_LABELS)
+    return render_template(
+        "doacoes.html",
+        doacoes=doacoes,
+        status_labels=STATUS_LABELS,
+        checkout_configurado=bool(current_app.config.get("MERCADOPAGO_ACCESS_TOKEN")),
+    )
 
 
 @doacao_bp.route("/doacoes/retorno")

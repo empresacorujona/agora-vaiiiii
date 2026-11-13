@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import UniqueConstraint
 
 db = SQLAlchemy()
 
@@ -50,6 +51,14 @@ class Usuario(db.Model):
         db.Boolean,
         default=False
     )
+    login_code_hash = db.Column(db.String(64), nullable=True)
+    login_code_expires_at = db.Column(db.DateTime, nullable=True)
+    login_code_sent_at = db.Column(db.DateTime, nullable=True)
+    login_code_attempts = db.Column(db.Integer, nullable=False, default=0)
+    email_verification_code_hash = db.Column(db.String(64), nullable=True)
+    email_verification_code_expires_at = db.Column(db.DateTime, nullable=True)
+    email_verification_code_sent_at = db.Column(db.DateTime, nullable=True)
+    email_verification_code_attempts = db.Column(db.Integer, nullable=False, default=0)
 
     agendamentos = db.relationship(
         "Agendamento",
@@ -63,6 +72,7 @@ class Usuario(db.Model):
 class Agendamento(db.Model):
 
     __tablename__ = "agendamentos"
+    __table_args__ = (UniqueConstraint("hospital", "data_consulta", "horario", name="uq_agendamento_slot"),)
 
     id = db.Column(
         db.Integer,

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmar e-mail | OwlConvenial</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:#eef5f1;font-family:Arial,sans-serif;color:#263a32}.cartao{width:min(100%,440px);padding:32px;background:white;border-radius:18px;box-shadow:0 12px 36px #173f2b18}h1{margin-top:0;color:#2D7F62}p{line-height:1.5}.email{font-weight:bold;overflow-wrap:anywhere}.codigo{width:100%;padding:14px;border:1px solid #b9d4c6;border-radius:10px;font-size:24px;text-align:center;letter-spacing:8px}.botao{width:100%;padding:13px;margin-top:14px;border:0;border-radius:10px;background:#2D7F62;color:white;font-size:16px;font-weight:bold;cursor:pointer}.link{display:block;margin-top:16px;text-align:center;color:#2D7F62}.mensagens{margin-bottom:16px}.mensagem{padding:11px;border-radius:8px;background:#e7f4eb;margin-bottom:8px}.mensagem-danger{background:#ffe5e5}.mensagem-warning{background:#fff2cc}
+  </style>
+</head>
+<body>
+  <main class="cartao">
+    {% include '_mensagens.html' %}
+    <h1>Confirme seu e-mail</h1>
+    <p>Digite o código de 6 dígitos que enviamos para:</p>
+    <p class="email">{{ email }}</p>
+    <p>O código expira em 10 minutos.</p>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label for="codigo">Código de verificação</label>
+      <input class="codigo" id="codigo" name="codigo" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" minlength="6" required autofocus>
+      <button class="botao" type="submit">Confirmar e-mail</button>
+    </form>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <input type="hidden" name="acao" value="reenviar">
+      <button class="botao" type="submit">Enviar outro código</button>
+    </form>
+    <a class="link" href="{{ url_for('auth.login') }}">Voltar ao login</a>
+  </main>
+</body>
+</html>

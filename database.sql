@@ -10,7 +10,15 @@ CREATE TABLE IF NOT EXISTS usuarios (
     email VARCHAR(200) UNIQUE,
     telefone VARCHAR(20) UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    email_verificado BOOLEAN NOT NULL DEFAULT FALSE
+    email_verificado BOOLEAN NOT NULL DEFAULT FALSE,
+    login_code_hash VARCHAR(64),
+    login_code_expires_at TIMESTAMP,
+    login_code_sent_at TIMESTAMP,
+    login_code_attempts INTEGER NOT NULL DEFAULT 0,
+    email_verification_code_hash VARCHAR(64),
+    email_verification_code_expires_at TIMESTAMP,
+    email_verification_code_sent_at TIMESTAMP,
+    email_verification_code_attempts INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS agendamentos (
@@ -34,5 +42,7 @@ CREATE TABLE IF NOT EXISTS doacoes (
 
 CREATE INDEX IF NOT EXISTS ix_agendamentos_usuario_data
     ON agendamentos (usuario_id, data_consulta);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_agendamento_slot
+    ON agendamentos (hospital, data_consulta, horario);
 CREATE INDEX IF NOT EXISTS ix_doacoes_usuario
     ON doacoes (usuario_id);

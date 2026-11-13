@@ -5,16 +5,18 @@ def obter_localizacao(ip):
     try:
 
         resposta = requests.get(
-            f"http://ip-api.com/json/{ip}",
+            f"https://ipapi.co/{ip}/json/",
             timeout=5
         )
-
+        resposta.raise_for_status()
         dados = resposta.json()
+        if dados.get("error") or not dados.get("latitude") or not dados.get("longitude"):
+            return None
 
         return {
-            "latitude": dados["lat"],
-            "longitude": dados["lon"],
-            "cidade": dados["city"]
+            "latitude": dados["latitude"],
+            "longitude": dados["longitude"],
+            "cidade": dados.get("city") or "localização aproximada"
         }
 
     except Exception:

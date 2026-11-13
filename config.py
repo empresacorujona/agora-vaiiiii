@@ -5,7 +5,12 @@ load_dotenv()
 
 
 class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY", "dev-only-change-this-secret")
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    if not SECRET_KEY:
+        if os.getenv("FLASK_DEBUG", "false").lower() == "true":
+            SECRET_KEY = "dev-only-change-this-secret"
+        else:
+            raise RuntimeError("Defina SECRET_KEY no ambiente antes de iniciar o app.")
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL", "sqlite:///owlconvenial.db"
     ).replace("postgres://", "postgresql://", 1)

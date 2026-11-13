@@ -1,7 +1,7 @@
 import hmac
 import secrets
 
-from flask import Flask, abort, flash, redirect, render_template, request, session, url_for
+from flask import Flask, abort, render_template, request, session
 from sqlalchemy import inspect, text
 
 from config import Config
@@ -51,10 +51,19 @@ def sobrenos():
     return render_template("sobrenos.html")
 
 
+@app.errorhandler(400)
+def requisicao_invalida(error):
+    mensagem = getattr(error, "description", "Não foi possível processar o formulário.")
+    return render_template("erro.html", titulo="Formulário expirado", mensagem=mensagem), 400
+
+
 @app.errorhandler(404)
 def nao_encontrado(_error):
-    flash("A página solicitada não foi encontrada.", "warning")
-    return redirect(url_for("index"))
+    return render_template(
+        "erro.html",
+        titulo="Página não encontrada",
+        mensagem="O endereço pode estar desatualizado ou a página não existe.",
+    ), 404
 
 
 with app.app_context():
@@ -64,6 +73,24 @@ with app.app_context():
         with db.engine.begin() as connection:
             connection.execute(text("ALTER TABLE usuarios ADD COLUMN telefone VARCHAR(20)"))
             connection.execute(text("CREATE UNIQUE INDEX IF NOT EXISTS uq_usuarios_telefone ON usuarios (telefone)"))
+    colunas_usuario = {column["name"] for column in inspect(db.engine).get_columns("usuarios")}
+    with db.engine.begin() as connection:
+        if "login_code_hash" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN login_code_hash VARCHAR(64)"))
+        if "login_code_expires_at" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN login_code_expires_at TIMESTAMP"))
+        if "login_code_sent_at" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN login_code_sent_at TIMESTAMP"))
+        if "login_code_attempts" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN login_code_attempts INTEGER NOT NULL DEFAULT 0"))
+        if "email_verification_code_hash" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN email_verification_code_hash VARCHAR(64)"))
+        if "email_verification_code_expires_at" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN email_verification_code_expires_at TIMESTAMP"))
+        if "email_verification_code_sent_at" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN email_verification_code_sent_at TIMESTAMP"))
+        if "email_verification_code_attempts" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN email_verification_code_attempts INTEGER NOT NULL DEFAULT 0"))
 
 
 if __name__ == "__main__":

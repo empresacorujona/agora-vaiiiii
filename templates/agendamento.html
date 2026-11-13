@@ -205,6 +205,8 @@
 
 <body>
 
+{% include '_mensagens.html' %}
+
 <div class="card">
 
     <div class="icone">
@@ -240,13 +242,14 @@
             value="{{ hospital }}"
         >
 
-        <label>
+        <label for="especialidade">
 
             👨‍⚕️ Especialidade
 
         </label>
 
         <select
+            id="especialidade"
             name="especialidade"
             required
         >
@@ -257,43 +260,43 @@
 
             </option>
 
-            <option>Clínico Geral</option>
+            <option {% if especialidade == 'Clínico Geral' %}selected{% endif %}>Clínico Geral</option>
 
-            <option>Cardiologia</option>
+            <option {% if especialidade == 'Cardiologia' %}selected{% endif %}>Cardiologia</option>
 
-            <option>Dermatologia</option>
+            <option {% if especialidade == 'Dermatologia' %}selected{% endif %}>Dermatologia</option>
 
-            <option>Endocrinologia</option>
+            <option {% if especialidade == 'Endocrinologia' %}selected{% endif %}>Endocrinologia</option>
 
-            <option>Gastroenterologia</option>
+            <option {% if especialidade == 'Gastroenterologia' %}selected{% endif %}>Gastroenterologia</option>
 
-            <option>Ginecologia</option>
+            <option {% if especialidade == 'Ginecologia' %}selected{% endif %}>Ginecologia</option>
 
-            <option>Neurologia</option>
+            <option {% if especialidade == 'Neurologia' %}selected{% endif %}>Neurologia</option>
 
-            <option>Nutrição</option>
+            <option {% if especialidade == 'Nutrição' %}selected{% endif %}>Nutrição</option>
 
-            <option>Oftalmologia</option>
+            <option {% if especialidade == 'Oftalmologia' %}selected{% endif %}>Oftalmologia</option>
 
-            <option>Ortopedia</option>
+            <option {% if especialidade == 'Ortopedia' %}selected{% endif %}>Ortopedia</option>
 
-            <option>Otorrinolaringologia</option>
+            <option {% if especialidade == 'Otorrinolaringologia' %}selected{% endif %}>Otorrinolaringologia</option>
 
-            <option>Pediatria</option>
+            <option {% if especialidade == 'Pediatria' %}selected{% endif %}>Pediatria</option>
 
-            <option>Pneumologia</option>
+            <option {% if especialidade == 'Pneumologia' %}selected{% endif %}>Pneumologia</option>
 
-            <option>Psiquiatria</option>
+            <option {% if especialidade == 'Psiquiatria' %}selected{% endif %}>Psiquiatria</option>
 
-            <option>Psicologia</option>
+            <option {% if especialidade == 'Psicologia' %}selected{% endif %}>Psicologia</option>
 
-            <option>Reumatologia</option>
+            <option {% if especialidade == 'Reumatologia' %}selected{% endif %}>Reumatologia</option>
 
-            <option>Urologia</option>
+            <option {% if especialidade == 'Urologia' %}selected{% endif %}>Urologia</option>
 
         </select>
 
-        <label>
+        <label for="data">
 
             📅 Data
 
@@ -301,11 +304,14 @@
 
         <input
             type="date"
+            id="data"
             name="data"
+            min="{{ hoje }}"
+            value="{{ data }}"
             required
         >
 
-        <label>
+        <label for="hora">
 
             🕒 Horário
 
@@ -313,7 +319,9 @@
 
         <input
             type="time"
+            id="hora"
             name="hora"
+            value="{{ hora }}"
             required
         >
 

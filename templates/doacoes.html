@@ -17,21 +17,25 @@
   {% include '_mensagens.html' %}
   <nav class="topo"><strong>🦉 OwlConvenial</strong><a href="/">Voltar ao início</a></nav>
   <main class="pagina">
-    <section class="hero"><h1>Apoie o OwlConvenial 💚</h1><p>Sua contribuição voluntária ajuda a manter e evoluir este projeto. O pagamento acontece em ambiente seguro do Mercado Pago; o status só muda após a confirmação do provedor.</p></section>
+    <section class="hero"><h1>Apoie o OwlConvenial 💚</h1><p>Sua contribuição voluntária ajuda a manter e evoluir este projeto. {% if checkout_configurado %}O pagamento é processado pelo checkout do Mercado Pago e o status muda após a confirmação do provedor.{% else %}O checkout do Mercado Pago ainda não foi habilitado.{% endif %}</p></section>
     <section class="painel">
       <h2>Escolha o valor da sua doação</h2>
       <p class="ajuda">Pagamento único, a partir de R$ 1,00. Nenhum dado de cartão é armazenado por este sistema.</p>
+      {% if checkout_configurado %}
       <form class="form-doacao" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-        <div class="campo"><label for="valor">Valor (R$)</label><input id="valor" name="valor" type="number" min="1.00" max="100000.00" step="0.01" placeholder="25,00" required></div>
+        <div class="campo"><label for="valor">Valor (R$)</label><input id="valor" name="valor" type="number" min="1.00" max="100000.00" step="0.01" placeholder="25.00" required></div>
         <button class="botao" type="submit">Continuar para pagamento</button>
       </form>
+      {% else %}
+      <div class="mensagem mensagem-warning" role="status">As doações ainda não estão disponíveis. O checkout do Mercado Pago não foi configurado.</div>
+      {% endif %}
     </section>
     <section class="painel">
       <h2>Minhas doações</h2>
       {% if doacoes %}
         {% for doacao in doacoes %}
-          <div class="doacao"><div><strong>Doação #{{ doacao.id }}</strong><br><span class="ajuda">{{ doacao.criado_em.strftime('%d/%m/%Y %H:%M') }}</span></div><div style="text-align:right"><strong>R$ {{ '%.2f'|format(doacao.valor_centavos / 100) }}</strong><br><span class="status">{{ status_labels.get(doacao.status, doacao.status) }}</span></div></div>
+          <div class="doacao"><div><strong>Doação #{{ doacao.id }}</strong><br><span class="ajuda">{{ doacao.criado_em.strftime('%d/%m/%Y %H:%M') }}</span></div><div style="text-align:right"><strong>R$ {{ ('%.2f'|format(doacao.valor_centavos / 100)).replace('.', ',') }}</strong><br><span class="status">{{ status_labels.get(doacao.status, doacao.status) }}</span></div></div>
         {% endfor %}
       {% else %}<p class="ajuda">Você ainda não realizou doações.</p>{% endif %}
     </section>

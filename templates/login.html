@@ -1,113 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+﻿<!doctype html>
+<html lang="pt-BR">
 <head>
-
-    <title>Login</title>
-
-    <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/login.css') }}">
-
-    <style>
-
-      .cadastro-box{
-  
-          margin-top:15px;
-          text-align:center;
-          font-size:15px;
-  
-      }
-  
-      .cadastro-box p{
-  
-          margin:0;
-          color:#f5f5f5;
-  
-      }
-  
-      .cadastre-se{
-  
-          color:#bdbdbd;
-          font-weight:600;
-          text-decoration:none;
-          transition:.25s;
-  
-      }
-  
-      .cadastre-se:hover{
-  
-          color:#ffffff;
-          text-decoration:underline;
-  
-      }
-  
-  </style>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar | OwlConvenial</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
-
 <body>
-
-    {% include '_mensagens.html' %}
-
-    <!-- Logo -->
-    <a href="static/Assets/img/logo.png">
-
-        <img src="{{ url_for('static',
-        filename='Assets/img/logo.png') }}">
-
+  {% include '_mensagens.html' %}
+  <main class="login-card">
+    <a class="logo" href="{{ url_for('index') }}" aria-label="OwlConvenial - início">
+      <img src="{{ url_for('static', filename='Assets/img/logo.png') }}" alt="Logo OwlConvenial">
     </a>
-
-    <div class="container mt-5">
-
-        <h2>Realize seu Login!</h2>
-
-        <form method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-
-            <input
-                class="form-control mb-3"
-                type="text"
-                name="identificador"
-                required
-                placeholder="E-mail ou telefone"
-            />
-
-            <input
-                class="form-control mb-3"
-                type="password"
-                name="senha"
-                placeholder="Senha"
-                required
-            />
-
-            <button class="btn btn-primary">
-
-                Entrar
-
-            </button>
-
-            <div class="cadastro-box">
-
-                <p>
-
-                    Não possui uma conta?
-
-                    <a href="/cadastro" class="cadastre-se">
-
-                        Cadastre-se
-
-                    </a>
-
-                </p>
-
-            </div>
-
-            <div class="cadastro-box">
-                <a href="/reenviar-verificacao" class="cadastre-se">Não recebeu o e-mail de confirmação?</a>
-            </div>
-
-        </form>
-
-    </div>
-
+    <h1>Entre na sua conta</h1>
+    <p class="orientacao">Após validar a senha, enviaremos um código de acesso às contas que têm um e-mail confirmado.</p>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label for="identificador">E-mail ou telefone</label>
+      <input id="identificador" type="text" name="identificador" autocomplete="username" value="{{ request.form.get('identificador', '') }}" required autofocus>
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" name="senha" autocomplete="current-password" required>
+      <button type="submit">Entrar</button>
+    </form>
+    <nav class="links" aria-label="Opções da conta">
+      <a href="{{ url_for('auth.cadastro') }}">Criar uma conta</a>
+      <a href="{{ url_for('auth.reenviar_verificacao') }}">Precisa confirmar seu e-mail?</a>
+    </nav>
+  </main>
 </body>
 </html>
