@@ -15,10 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
 
 </head>
 
 <body>
+{% include '_menu_logado.html' %}
 
 <header class="header">
 
@@ -38,16 +40,10 @@
 
     </div>
 
-    {% if usuario_logado %}
-    <div class="conta-logada">
-        <span>Olá, {{ usuario_nome_logado }}</span>
-        <a href="/paciente" class="area-paciente">Minha conta</a>
-        <a href="/logout" class="area-paciente sair">Sair</a>
-    </div>
-    {% else %}
+    {% if not usuario_logado %}
     <div class="acesso-conta">
-        <a href="/login" class="area-paciente">Entrar</a>
         <a href="/cadastro" class="area-paciente criar-conta">Criar conta</a>
+        <a href="/login" class="area-paciente">Entrar</a>
     </div>
     {% endif %}
 

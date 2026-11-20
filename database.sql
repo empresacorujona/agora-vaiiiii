@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     genero VARCHAR(30) NOT NULL,
     data_nascimento DATE NOT NULL,
     email VARCHAR(200) UNIQUE,
+    google_sub VARCHAR(255) UNIQUE,
     telefone VARCHAR(20) UNIQUE,
     senha VARCHAR(255) NOT NULL,
     email_verificado BOOLEAN NOT NULL DEFAULT FALSE,

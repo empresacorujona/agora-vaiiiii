@@ -1,0 +1,107 @@
+.menu-conta {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 1000;
+  color: #244536;
+  font-family: Arial, sans-serif;
+}
+
+.menu-conta summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  border: 1px solid #d8e6de;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 18px #102d201f;
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+}
+
+.menu-conta summary::-webkit-details-marker {
+  display: none;
+}
+
+.menu-conta summary:focus-visible,
+.menu-conta-painel a:focus-visible {
+  outline: 3px solid #62b995;
+  outline-offset: 3px;
+}
+
+.menu-hamburguer {
+  display: grid;
+  gap: 4px;
+  width: 20px;
+}
+
+.menu-hamburguer i {
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: #2d7f62;
+}
+
+.menu-conta-painel {
+  position: absolute;
+  top: calc(100% + 9px);
+  right: 0;
+  display: grid;
+  gap: 3px;
+  width: min(270px, calc(100vw - 32px));
+  padding: 10px;
+  border: 1px solid #d8e6de;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 12px 30px #102d2026;
+}
+
+.menu-conta-painel a {
+  padding: 11px 12px;
+  border-radius: 9px;
+  color: #244536;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.menu-conta-painel a:hover {
+  background: #edf6f1;
+}
+
+.menu-conta-saudar {
+  margin: 0;
+  padding: 10px 12px 12px;
+  border-bottom: 1px solid #e4eee8;
+  color: #687b70;
+  font-size: 13px;
+}
+
+.menu-conta-painel a.menu-conta-sair {
+  margin-top: 5px;
+  border-top: 1px solid #f0e4e4;
+  border-radius: 0 0 9px 9px;
+  color: #a94c4c;
+  font-size: 13px;
+}
+
+.menu-conta-painel a.menu-conta-sair:hover {
+  background: #fbefef;
+  color: #8e3838;
+}
+
+@media (max-width: 600px) {
+  .menu-conta {
+    top: 10px;
+    right: 10px;
+  }
+
+  .menu-conta summary {
+    padding: 10px 12px;
+  }
+
+  .menu-texto {
+    font-size: 14px;
+  }
+}

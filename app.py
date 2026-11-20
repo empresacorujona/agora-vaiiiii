@@ -10,11 +10,13 @@ from routes.auth import auth_bp
 from routes.doacoes import doacao_bp
 from routes.hospitais import hospital_bp
 from services.email_service import mail
+from services.google_oauth import init_google_oauth
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 mail.init_app(app)
+init_google_oauth(app)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(hospital_bp)
@@ -75,6 +77,9 @@ with app.app_context():
             connection.execute(text("CREATE UNIQUE INDEX IF NOT EXISTS uq_usuarios_telefone ON usuarios (telefone)"))
     colunas_usuario = {column["name"] for column in inspect(db.engine).get_columns("usuarios")}
     with db.engine.begin() as connection:
+        if "google_sub" not in colunas_usuario:
+            connection.execute(text("ALTER TABLE usuarios ADD COLUMN google_sub VARCHAR(255)"))
+        connection.execute(text("CREATE UNIQUE INDEX IF NOT EXISTS uq_usuarios_google_sub ON usuarios (google_sub)"))
         if "login_code_hash" not in colunas_usuario:
             connection.execute(text("ALTER TABLE usuarios ADD COLUMN login_code_hash VARCHAR(64)"))
         if "login_code_expires_at" not in colunas_usuario:

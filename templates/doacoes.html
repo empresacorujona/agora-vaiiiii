@@ -4,6 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Apoie o OwlConvenial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *{box-sizing:border-box}body{margin:0;padding:28px;font-family:Inter,Arial,sans-serif;background:#edf5f0;color:#243b32}
@@ -14,6 +15,7 @@
   </style>
 </head>
 <body>
+  {% include '_menu_logado.html' %}
   {% include '_mensagens.html' %}
   <nav class="topo"><strong>🦉 OwlConvenial</strong><a href="/">Voltar ao início</a></nav>
   <main class="pagina">

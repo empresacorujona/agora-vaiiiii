@@ -109,6 +109,17 @@ O Mercado Pago precisa acessar uma URL pública HTTPS para enviar notificações
 8. **Criar testes automatizados persistentes:** cobrir cadastro, códigos, login, solicitações, cancelamentos, doações e webhooks com banco de teste e serviços externos simulados.
 9. **Revisar a busca de hospitais:** confirmar cobertura e regras de uso do OpenStreetMap/Nominatim, considerar busca por cidade ou localização escolhida pela pessoa e informar a origem dos resultados.
 
+## Login com Google (opcional)
+
+Crie um cliente OAuth do tipo aplicativo Web no Google Cloud Console. Cadastre como URI de redirecionamento autorizado `{APP_BASE_URL}/login/google/callback` (por exemplo, `http://localhost:5000/login/google/callback`) e configure no `.env`:
+
+```dotenv
+GOOGLE_CLIENT_ID=seu-client-id
+GOOGLE_CLIENT_SECRET=seu-client-secret
+```
+
+O botão aparece na tela de login quando as duas credenciais estão configuradas. Esse acesso serve somente para contas que já existem no OwlConvenial; no primeiro vínculo, aceita Gmail ou Google Workspace com e-mail confirmado. Depois de um vínculo confirmado, o próximo login Google não pede o código por e-mail.
+
 ## Rotas principais
 
 - `/` — página inicial.

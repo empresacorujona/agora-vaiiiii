@@ -39,6 +39,7 @@ class Usuario(db.Model):
         unique=True,
         nullable=True
     )
+    google_sub = db.Column(db.String(255), unique=True, nullable=True)
 
     telefone = db.Column(db.String(20), unique=True, nullable=True)
 

@@ -1,0 +1,22 @@
+{% if usuario_logado %}
+  <details class="menu-conta">
+    <summary aria-label="Abrir menu de navegação">
+      <span class="menu-hamburguer" aria-hidden="true">
+        <i></i>
+        <i></i>
+        <i></i>
+      </span>
+      <span class="menu-texto">Menu</span>
+    </summary>
+
+    <nav class="menu-conta-painel" aria-label="Navegação principal">
+      <p class="menu-conta-saudar">Olá, {{ usuario_nome_logado }}</p>
+      <a href="{{ url_for('index') }}">Início</a>
+      <a href="{{ url_for('hospital.hospitais') }}">Encontrar hospitais</a>
+      <a href="{{ url_for('hospital.paciente') }}">Minha conta e consultas</a>
+      <a href="{{ url_for('doacoes.pagina_doacoes') }}">Doações</a>
+      <a href="{{ url_for('sobrenos') }}">Sobre nós</a>
+      <a class="menu-conta-sair" href="{{ url_for('auth.logout') }}">Sair</a>
+    </nav>
+  </details>
+{% endif %}

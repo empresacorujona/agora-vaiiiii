@@ -12,6 +12,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models import Usuario, db
 from services.email_service import enviar_codigo_login, enviar_codigo_verificacao, validar_token_verificacao
+from services.google_oauth import google_oauth_is_configured, oauth
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -19,6 +20,79 @@ auth_bp = Blueprint("auth", __name__)
 def _hash_codigo(usuario_id, codigo):
     mensagem = f"{usuario_id}:{codigo}".encode("utf-8")
     return hmac.new(current_app.config["SECRET_KEY"].encode("utf-8"), mensagem, hashlib.sha256).hexdigest()
+
+
+def _iniciar_sessao_usuario(usuario):
+    session.clear()
+    session["usuario_id"] = usuario.id
+    session["usuario_nome"] = usuario.nome
+    session["usuario_email"] = usuario.email
+
+
+@auth_bp.route("/login/google")
+def login_google():
+    if not google_oauth_is_configured():
+        flash("O acesso com Google ainda não foi configurado.", "warning")
+        return redirect(url_for("auth.login"))
+
+    callback_url = f"{current_app.config['APP_BASE_URL']}{url_for('auth.login_google_callback')}"
+    return oauth.google.authorize_redirect(callback_url)
+
+
+@auth_bp.route("/login/google/callback")
+def login_google_callback():
+    if not google_oauth_is_configured():
+        flash("O acesso com Google ainda não foi configurado.", "warning")
+        return redirect(url_for("auth.login"))
+
+    try:
+        token = oauth.google.authorize_access_token()
+    except Exception:
+        current_app.logger.exception("Falha na autenticação Google")
+        flash("Não foi possível validar o acesso com Google. Tente novamente.", "danger")
+        return redirect(url_for("auth.login"))
+
+    perfil = token.get("userinfo") or {}
+    google_sub = perfil.get("sub")
+    email = (perfil.get("email") or "").strip().lower()
+    email_verificado = perfil.get("email_verified") in (True, "true")
+    dominio_google = perfil.get("hd")
+    email_autoritativo = email.endswith("@gmail.com") or bool(dominio_google)
+
+    if not google_sub or not email:
+        flash("O Google não retornou os dados necessários para entrar.", "danger")
+        return redirect(url_for("auth.login"))
+
+    usuario = Usuario.query.filter_by(google_sub=google_sub).first()
+    if not usuario:
+        if not email_verificado or not email_autoritativo:
+            flash("Use uma conta Google Gmail ou Workspace com e-mail confirmado.", "warning")
+            return redirect(url_for("auth.login"))
+
+        usuario = Usuario.query.filter_by(email=email).first()
+        if not usuario:
+            flash("Essa conta ainda não está cadastrada. Crie sua conta antes de entrar com Google.", "warning")
+            return redirect(url_for("auth.login"))
+
+        if usuario.google_sub and usuario.google_sub != google_sub:
+            flash("Esta conta já está vinculada a outro acesso Google.", "warning")
+            return redirect(url_for("auth.login"))
+
+        usuario.google_sub = google_sub
+        usuario.email_verificado = True
+        usuario.email_verification_code_hash = None
+        usuario.email_verification_code_expires_at = None
+        usuario.email_verification_code_attempts = 0
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            current_app.logger.exception("Falha ao vincular conta Google")
+            flash("Não foi possível vincular o acesso Google. Tente novamente.", "danger")
+            return redirect(url_for("auth.login"))
+
+    _iniciar_sessao_usuario(usuario)
+    return redirect(url_for("index"))
 
 
 def _enviar_codigo(usuario, reset_attempts=True):
@@ -214,7 +288,6 @@ def verificar_email_codigo():
         session["usuario_id"] = usuario.id
         session["usuario_nome"] = usuario.nome
         session["usuario_email"] = usuario.email
-        flash("E-mail confirmado e conta ativada. Bem-vindo(a)!", "success")
         return redirect(url_for("index"))
 
     return render_template("verificar_email_codigo.html", email=usuario.email)
@@ -302,7 +375,6 @@ def login():
             session["usuario_id"] = usuario.id
             session["usuario_nome"] = usuario.nome
             session["usuario_email"] = usuario.email
-            flash(f"Bem-vindo(a), {usuario.nome}!", "success")
             return redirect(url_for("index"))
 
         flash("E-mail ou senha inválidos.", "danger")
@@ -368,7 +440,6 @@ def verificar_codigo():
         session["usuario_id"] = usuario.id
         session["usuario_nome"] = usuario.nome
         session["usuario_email"] = usuario.email
-        flash(f"Bem-vindo(a), {usuario.nome}!", "success")
         return redirect(url_for("index"))
 
     return render_template("verificar_codigo.html", email=usuario.email)
